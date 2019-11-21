@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body onload="showMyFace()">
+    <!-- <video id="yourVideo" autoplay muted playsinline></video>
+    <video id="friendsVideo" autoplay playsinline></video>
+    <br /> -->
+
+
+    <div id="div-video-big" style="text-align: center;border: none;">
+      <video id="remoteVideo" style="width: 100%; height:100%" playsinline autoplay></video>
+      <div id="video-call-bottom" style="padding-bottom: 10px">
+          <div id="div-video-small" class="cdk-drag-animating" cdkDragBoundary="#div-video-big" cdkDrag>
+              <!-- <img style="width: 100%;height: 100%;" src="assets/img/student.jpg" /> -->
+              <video id="localVideo" style="width: 100%"playsinline autoplay></video>
+            </div>
+      </div>
+    </div>
+
+    <br />
+
+
+
+<!--     <button onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Call</button> -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+    <script src="http://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="js/script.js" ></script>
+  </body>
+</html>

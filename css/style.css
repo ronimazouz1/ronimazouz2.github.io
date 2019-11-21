@@ -1,0 +1,73 @@
+body {
+  background: linear-gradient(-45deg, #ee7752, #cc2b5e, #123f64, #23D5AB);
+  background-size: 500% 500%;
+  -webkit-animation: Gradient 15s ease infinite;
+  -moz-animation: Gradient 15s ease infinite;
+  animation: Gradient 15s ease infinite;
+}
+
+@keyframes Gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+#div-video-big {
+  margin: auto auto;
+  height: 55vh;
+  width: 100%;
+  position: absolute;
+  z-index: 3;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+
+
+@media (max-width: 767px) {
+  #video-call-bottom {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    z-index: 3;
+  }
+}
+
+@media (min-width: 768px) {
+  #video-call-bottom {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+  }
+}
+
+#video-call-bottom {
+  padding-bottom: 10px;
+}
+
+#div-video-small {
+  width: 30%;
+  margin-right: 10px;
+  position: relative;
+  z-index: 30000;
+  border-radius: 30px !important;
+  float: right;
+  overflow: hidden;
+}
+
+#localVideo {
+  object-fit: fill;
+}
+
+#remoteVideo {
+  object-fit: fill;
+}
