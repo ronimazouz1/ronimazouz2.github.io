@@ -21,6 +21,7 @@ var pc = new RTCPeerConnection(servers);
 pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 pc.onaddstream = (event => remoteVideo.srcObject = event.stream);
 
+
 function sendMessage(senderId, data) {
     var msg = database.push({ sender: senderId, message: data });
     msg.remove();
@@ -68,7 +69,6 @@ if (location.hash === "#tutor") {
 
 
 
-
 //shows attachment preview
 function readURL(input) {
   if (input.files && input.files[0]) {
@@ -102,44 +102,36 @@ function autosize() {
 }
 
 
-// add text to messenger
-var count = 1;
-$('.message-submit').click(function() {
-    $('<div />', { class:'my-message' , id:'my-message-' + count})
-       .append($('<b>' + 'moi'+ '</b>'))
-       .append(document.getElementsByClassName('message-input')[0].value)
-       .append($('<div />', { class:'attachment-container', id:'container-' + count }))
-       .append('<span class="time" id="my-datetime">' +  ( (("0"+new Date().getHours()).slice(-2)) +":"+ (("0"+new Date().getMinutes()).slice(-2))) + '</span>')
-       .appendTo("#div-messenger");
-       $('#my-message-' + count).hide();
-       $('#my-message-' + count).fadeIn(650);
+//TEXT MESSENGER PART
 
+function createTextConnection() {
+  console.log('Sending offer to peer');
+  //create channel for chat
+  var dataChannelParams = {
+      reliable: true,
+      ordered: true
+  };
+var dataChannel = pc.createDataChannel("chat", dataChannelParams);
 
-       const input = document.getElementById('attach');
-       if (input.files && input.files[0]) {
-           const reader = new FileReader();
-           reader.onload = function() {
-               var i = count -1;
-               var id = 'container-' + i;
-               $('#' + id).fadeIn(650);
-               $('#' + id).css('background-image', 'url(' + reader.result + ')');
-           };
-           reader.readAsDataURL(input.files[0]);
-         }
+  pc.ondatachannel = function(event) {
+      var receiveChannel = event.channel;
+      receiveChannel.onmessage = function(event) {
+          console.log("I receive: " + event.data);
+          document.querySelector("textarea#receiveText").innerHTML = event.data;
+      };
+  };
 
+  document.querySelector("button#sendMessage").onclick = function() {
+      var data = document.querySelector("textarea#text-message").value;
+      console.log("invio questo messaggio: " + data);
+      dataChannel.send(data);
+  };
 
-    setTimeout(() => {
-        $('#div-messenger').animate({scrollTop: $('#div-messenger').get(0).scrollHeight}, 400);
-    }, 100);
-    
-    setTimeout(function() {
-        textarea.style.cssText = 'height:auto';
-        textarea.style.cssText = 'height:' + this.scrollHeight + 'px';
-        document.getElementById("text-message").value = "";
-    }, 0);
+  dataChannel.onmessage = function(event) {
+    document.querySelector("textarea#receiveText").innerHTML = event.data;
+};
 
-    $('#attachmentPreview').hide(350);
-    $('#attach').val('');
-    count++;
-  });
+  // pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
+}
+
 
