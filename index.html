@@ -24,21 +24,22 @@
     <div class="messenger-bottom">
     
       <input id="attach" type="file" style="display: none"/>
-      <label id="label-attach" for="attach"><icon id="icon-attach" class="fa fa-camera" style="color: #4A90E2;font-size: 18px;"></icon></label>
+      <label id="label-attach" for="attach">
+          <img src="img/camera.png" style="width: 10%;" />
+      </label>
       <div class="message-box">
         <div id ="attachmentPreview">
-          <img src="{% static 'img/call_page/icon-close.png' %}" id="icon-close" onclick="closeAttachment()" />
+          <img src="img/icon-close.png" id="icon-close" onclick="closeAttachment()" />
         </div>
         <textarea id="text-message" type="text" rows='1' class="message-input" placeholder="Votre message..."></textarea>
       </div>
         <button id="sendMessage" type="submit" class="message-submit">
-          <i class="fa fa-send" style="color: #4A90E2;font-size: 24px;"></i>
+          <img src="img/send.png" style="width: 100%;" />
         </button>
       </div>
 
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="js/script.js" ></script>
