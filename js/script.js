@@ -44,13 +44,13 @@ function readMessage(data) {
 
 database.on('child_added', readMessage);
 
-function showMyFace() {
+function start() {
   navigator.mediaDevices.getUserMedia({audio:true, video:true})
     .then(stream => localVideo.srcObject = stream)
     .then(stream => pc.addStream(stream));
 }
 
-function showFriendsFace() {
+function call() {
   pc.createOffer()
     .then(offer => pc.setLocalDescription(offer) )
     .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
@@ -62,6 +62,8 @@ function goToPage() {
 
 if (location.hash === "#tutor") {
   localVideo.onloadedmetadata = function() {
-    showFriendsFace();
+    call();
   };
 }
+
+

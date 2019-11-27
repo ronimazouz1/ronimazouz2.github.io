@@ -19,6 +19,7 @@ body {
 }
 
 #div-video-big {
+  border: 2px solid white;
   margin: auto auto;
   height: 55vh;
   width: 100%;
@@ -27,7 +28,6 @@ body {
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
   border-radius: 30px;
-  border: 2 px solid white;
   overflow: hidden;
 }
 
