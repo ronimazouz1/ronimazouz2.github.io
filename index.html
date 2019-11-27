@@ -19,8 +19,22 @@
       </div>
     </div>
 
-    <br />
-
+    <div id="div-messenger"></div>
+    
+    <div class="messenger-bottom">
+    
+      <input id="attach" type="file" style="display: none"/>
+      <label id="label-attach" for="attach"><icon id="icon-attach" class="fa fa-camera" style="color: #4A90E2;font-size: 18px;"></icon></label>
+      <div class="message-box">
+        <div id ="attachmentPreview">
+          <img src="{% static 'img/call_page/icon-close.png' %}" id="icon-close" onclick="closeAttachment()" />
+        </div>
+        <textarea id="text-message" type="text" rows='1' class="message-input" placeholder="Votre message..."></textarea>
+      </div>
+        <button id="sendMessage" type="submit" class="message-submit">
+          <i class="fa fa-send" style="color: #4A90E2;font-size: 24px;"></i>
+        </button>
+      </div>
 
 
 
