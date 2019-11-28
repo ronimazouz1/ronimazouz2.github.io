@@ -160,10 +160,10 @@ function createTextConnection() {
 
 // pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
-// function sendMessage(senderId, data) {
-//     var msg = database.push({ sender: senderId, message: data });
-//     msg.remove();
-// }
+function sendMessage(senderId, data) {
+    var msg = database.push({ sender: senderId, message: data });
+    msg.remove();
+}
 
 
   sendChannel.onopen = onSendChannelStateChange;
