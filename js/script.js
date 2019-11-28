@@ -144,27 +144,26 @@ const dataChannelReceive = document.querySelector('textarea#receiveText');
 //   sendButton.disabled = true;
 // }
 
-function createTextConnection() {
+function createConnection() {
   dataChannelSend.placeholder = '';
   const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
-  window.localConnection = localConnection = pc;
-  window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
+  window.localConnection = localConnection = new RTCPeerConnection(servers);
   console.log('Created local peer connection object localConnection');
 
-  sendChannel = pc.createDataChannel('sendDataChannel');
+  sendChannel = localConnection.createDataChannel('sendDataChannel');
   console.log('Created send data channel');
 
   localConnection.onicecandidate = e => {
-    onIceCandidate(remoteConnection, e);
+    onIceCandidate(localConnection, e);
   };
   sendChannel.onopen = onSendChannelStateChange;
   sendChannel.onclose = onSendChannelStateChange;
 
-  // window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
-  // console.log('Created remote peer connection object remoteConnection');
+  window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
+  console.log('Created remote peer connection object remoteConnection');
 
   remoteConnection.onicecandidate = e => {
-    onIceCandidate(localConnection, e);
+    onIceCandidate(remoteConnection, e);
   };
   remoteConnection.ondatachannel = receiveChannelCallback;
 
