@@ -264,7 +264,7 @@ function onSendChannelStateChange() {
     dataChannelSend.disabled = false;
     dataChannelSend.focus();
     // sendButton.disabled = false;
-    closeButton.disabled = false;
+    // closeButton.disabled = false;
   } else {
     dataChannelSend.disabled = true;
     // sendButton.disabled = true;
