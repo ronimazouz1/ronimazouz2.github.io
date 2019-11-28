@@ -145,7 +145,8 @@ const dataChannelReceive = document.querySelector('textarea#receiveText');
 
 function createTextConnection() {
   dataChannelSend.placeholder = '';
-  const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
+  const servers = null;
+  // const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
   window.localConnection = localConnection = new RTCPeerConnection(servers);
   console.log('Created local peer connection object localConnection');
 
@@ -158,15 +159,13 @@ function createTextConnection() {
   sendChannel.onopen = onSendChannelStateChange;
   sendChannel.onclose = onSendChannelStateChange;
 
-  remoteConnection.ondatachannel = receiveChannelCallback;
-
-
   window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
   console.log('Created remote peer connection object remoteConnection');
 
   remoteConnection.onicecandidate = e => {
     onIceCandidate(remoteConnection, e);
   };
+  remoteConnection.ondatachannel = receiveChannelCallback;
 
   localConnection.createOffer().then(
     gotDescription1,
