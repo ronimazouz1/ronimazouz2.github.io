@@ -1,14 +1,4 @@
-/*
- *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree.
- */
-
-'use strict';
-
-
+//Create an account on Firebase, and use the credentials they give you in place of the following
 var config = {
   apiKey: "AIzaSyAi6lUUAZLrEnzBJLdYvfFFZsKVNRNv1nI",
   authDomain: "tuto-826bc.firebaseapp.com",
@@ -27,206 +17,45 @@ var remoteVideo = document.getElementById("remoteVideo");
 var yourId = Math.floor(Math.random()*1000000000);
 //Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
 var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
+var pc = new RTCPeerConnection(servers);
+pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+pc.onaddstream = (event => remoteVideo.srcObject = event.stream);
 
 
+function sendMessage(senderId, data) {
+    var msg = database.push({ sender: senderId, message: data });
+    msg.remove();
+}
 
-
-const hangupButton = document.getElementById('hangupButton');
-hangupButton.disabled = true;
-hangupButton.addEventListener('click', hangup);
-
-let startTime;
-const localVideo = document.getElementById('localVideo');
-const remoteVideo = document.getElementById('remoteVideo');
-
-localVideo.addEventListener('loadedmetadata', function() {
-  console.log(`Local video videoWidth: ${this.videoWidth}px,  videoHeight: ${this.videoHeight}px`);
-});
-
-remoteVideo.addEventListener('loadedmetadata', function() {
-  console.log(`Remote video videoWidth: ${this.videoWidth}px,  videoHeight: ${this.videoHeight}px`);
-});
-
-remoteVideo.addEventListener('resize', () => {
-  console.log(`Remote video size changed to ${remoteVideo.videoWidth}x${remoteVideo.videoHeight}`);
-  // We'll use the first onsize callback as an indication that video has started
-  // playing out.
-  if (startTime) {
-    const elapsedTime = window.performance.now() - startTime;
-    console.log('Setup time: ' + elapsedTime.toFixed(3) + 'ms');
-    startTime = null;
-  }
-});
-
-let localStream;
-let pc1;
-let pc2;
-const offerOptions = {
-  offerToReceiveAudio: 1,
-  offerToReceiveVideo: 1
+function readMessage(data) {
+    var msg = JSON.parse(data.val().message);
+    var sender = data.val().sender;
+    if (sender != yourId) {
+        if (msg.ice != undefined)
+            pc.addIceCandidate(new RTCIceCandidate(msg.ice));
+        else if (msg.sdp.type == "offer")
+            pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
+              .then(() => pc.createAnswer())
+              .then(answer => pc.setLocalDescription(answer))
+              .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})));
+        else if (msg.sdp.type == "answer")
+            pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+    }
 };
 
-function getName(pc) {
-  return (pc === pc1) ? 'pc1' : 'pc2';
+database.on('child_added', readMessage);
+
+function start() {
+  navigator.mediaDevices.getUserMedia({audio:true, video:true})
+    .then(stream => localVideo.srcObject = stream)
+    .then(stream => pc.addStream(stream));
 }
 
-function getOtherPc(pc) {
-  return (pc === pc1) ? pc2 : pc1;
+function call() {
+  pc.createOffer()
+    .then(offer => pc.setLocalDescription(offer) )
+    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
 }
-
-async function start() {
-  console.log('Requesting local stream');
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-    console.log('Received local stream');
-    localVideo.srcObject = stream;
-    localStream = stream;
-  } catch (e) {
-    alert(`getUserMedia() error: ${e.name}`);
-  }
-}
-
-// function getSelectedSdpSemantics() {
-//   const sdpSemanticsSelect = document.querySelector('#sdpSemantics');
-//   const option = sdpSemanticsSelect.options[sdpSemanticsSelect.selectedIndex];
-//   return option.value === '' ? {} : {sdpSemantics: option.value};
-// }
-
-async function call() {
-  hangupButton.disabled = false;
-  console.log('Starting call');
-  startTime = window.performance.now();
-  const videoTracks = localStream.getVideoTracks();
-  const audioTracks = localStream.getAudioTracks();
-  if (videoTracks.length > 0) {
-    console.log(`Using video device: ${videoTracks[0].label}`);
-  }
-  if (audioTracks.length > 0) {
-    console.log(`Using audio device: ${audioTracks[0].label}`);
-  }
-  // const configuration = getSelectedSdpSemantics();
-  // console.log('RTCPeerConnection configuration:', configuration);
-  var pc = new RTCPeerConnection(servers);
-  pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
-  pc.onaddstream = (event => remoteVideo.srcObject = event.stream);
-
-  localStream.getTracks().forEach(track => pc1.addTrack(track, localStream));
-  console.log('Added local stream to pc1');
-
-  try {
-    console.log('pc1 createOffer start');
-    const offer = await pc.createOffer(offerOptions);
-    await onCreateOfferSuccess(offer);
-  } catch (e) {
-    onCreateSessionDescriptionError(e);
-  }
-}
-
-function onCreateSessionDescriptionError(error) {
-  console.log(`Failed to create session description: ${error.toString()}`);
-}
-
-async function onCreateOfferSuccess(desc) {
-  console.log(`Offer from pc1\n${desc.sdp}`);
-  console.log('pc1 setLocalDescription start');
-  try {
-    await pc1.setLocalDescription(desc);
-    onSetLocalSuccess(pc1);
-  } catch (e) {
-    onSetSessionDescriptionError();
-  }
-
-  console.log('pc2 setRemoteDescription start');
-  try {
-    await pc2.setRemoteDescription(desc);
-    onSetRemoteSuccess(pc2);
-  } catch (e) {
-    onSetSessionDescriptionError();
-  }
-
-  console.log('pc2 createAnswer start');
-  // Since the 'remote' side has no media stream we need
-  // to pass in the right constraints in order for it to
-  // accept the incoming offer of audio and video.
-  try {
-    const answer = await pc2.createAnswer();
-    await onCreateAnswerSuccess(answer);
-  } catch (e) {
-    onCreateSessionDescriptionError(e);
-  }
-}
-
-function onSetLocalSuccess(pc) {
-  console.log(`${getName(pc)} setLocalDescription complete`);
-}
-
-function onSetRemoteSuccess(pc) {
-  console.log(`${getName(pc)} setRemoteDescription complete`);
-}
-
-function onSetSessionDescriptionError(error) {
-  console.log(`Failed to set session description: ${error.toString()}`);
-}
-
-function gotRemoteStream(e) {
-  if (remoteVideo.srcObject !== e.streams[0]) {
-    remoteVideo.srcObject = e.streams[0];
-    console.log('pc2 received remote stream');
-  }
-}
-
-async function onCreateAnswerSuccess(desc) {
-  console.log(`Answer from pc2:\n${desc.sdp}`);
-  console.log('pc2 setLocalDescription start');
-  try {
-    await pc2.setLocalDescription(desc);
-    onSetLocalSuccess(pc2);
-  } catch (e) {
-    onSetSessionDescriptionError(e);
-  }
-  console.log('pc1 setRemoteDescription start');
-  try {
-    await pc1.setRemoteDescription(desc);
-    onSetRemoteSuccess(pc1);
-  } catch (e) {
-    onSetSessionDescriptionError(e);
-  }
-}
-
-async function onIceCandidate(pc, event) {
-  try {
-    await (getOtherPc(pc).addIceCandidate(event.candidate));
-    onAddIceCandidateSuccess(pc);
-  } catch (e) {
-    onAddIceCandidateError(pc, e);
-  }
-  console.log(`${getName(pc)} ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
-}
-
-function onAddIceCandidateSuccess(pc) {
-  console.log(`${getName(pc)} addIceCandidate success`);
-}
-
-function onAddIceCandidateError(pc, error) {
-  console.log(`${getName(pc)} failed to add ICE Candidate: ${error.toString()}`);
-}
-
-function onIceStateChange(pc, event) {
-  if (pc) {
-    console.log(`${getName(pc)} ICE state: ${pc.iceConnectionState}`);
-    console.log('ICE state change event: ', event);
-  }
-}
-
-function hangup() {
-  console.log('Ending call');
-  pc1.close();
-  pc2.close();
-  pc1 = null;
-  pc2 = null;
-  hangupButton.disabled = true;
-}
-
 
 function goToPage() {
   window.location.href = 'https://ronimazouz1.github.io/index#tutor';
@@ -237,3 +66,220 @@ if (location.hash === "#tutor") {
     call();
   };
 }
+
+
+
+//shows attachment preview
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      $('#attachmentPreview').css({backgroundImage: "url('" + e.target.result + "')"});
+      $('#attachmentPreview').show(650);
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$("#attach").change(function() {
+  readURL(this);
+});
+
+function closeAttachment() {
+  $('#attachmentPreview').hide(350);
+  $('#attach').val('');
+}
+
+//resize textarea
+const textarea = document.querySelector('textarea');
+textarea.addEventListener('input', autosize);
+function autosize() {
+  const el = this;
+  setTimeout(function() {
+    el.style.cssText = 'height:auto;';
+    el.style.cssText = 'height:' + el.scrollHeight + 'px';
+  }, 0);
+}
+
+
+//TEXT MESSENGER PART
+
+
+// function createTextConnection() {
+//   dataChannel = pc.createDataChannel("chat");
+//   console.log('localConnection OK')
+
+//   dataChannel.onerror = (error) => {
+//     console.log("Data Channel Error:", error);
+//   };
+  
+//   dataChannel.onmessage = (event) => {
+//     console.log("Got Data Channel Message:", event.data);
+//   };
+  
+//   dataChannel.onopen = () => {
+//     dataChannel.send("Hello World!");
+//   };
+  
+//   dataChannel.onclose = () => {
+//     console.log("The Data Channel is Closed");
+//   };
+
+// }
+
+let localConnection;
+let remoteConnection;
+let sendChannel;
+let receiveChannel;
+const dataChannelSend = document.querySelector('textarea#text-message');
+const dataChannelReceive = document.querySelector('textarea#receiveText');
+// const sendButton = document.querySelector('button#sendButton');
+// const closeButton = document.querySelector('button#closeButton');
+
+// closeButton.onclick = closeDataChannels;
+
+
+// function disableSendButton() {
+//   sendButton.disabled = true;
+// }
+
+// pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+
+
+function createTextConnection() {
+  dataChannelSend.placeholder = '';
+  const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
+  window.localConnection = localConnection = new RTCPeerConnection(servers);
+  console.log('Created local peer connection object localConnection');
+
+  sendChannel = localConnection.createDataChannel('sendDataChannel');
+  console.log('Created send data channel');
+
+
+  localConnection.onicecandidate = e => {
+    onIceCandidate(localConnection, e);
+  };
+  sendChannel.onopen = onSendChannelStateChange;
+  sendChannel.onclose = onSendChannelStateChange;
+
+  window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
+  console.log('Created remote peer connection object remoteConnection');
+
+  remoteConnection.onicecandidate = e => {
+    onIceCandidate(remoteConnection, e);
+  };
+  remoteConnection.ondatachannel = receiveChannelCallback;
+
+  localConnection.createOffer().then(
+    gotDescription1,
+    onCreateSessionDescriptionError
+  );
+  // closeButton.disabled = false;
+}
+
+function onCreateSessionDescriptionError(error) {
+  console.log('Failed to create session description: ' + error.toString());
+}
+
+function sendData() {
+  const data = dataChannelSend.value;
+  sendChannel.send(data);
+  console.log('Sent Data: ' + data);
+}
+
+function closeDataChannels() {
+  console.log('Closing data channels');
+  sendChannel.close();
+  console.log('Closed data channel with label: ' + sendChannel.label);
+  receiveChannel.close();
+  console.log('Closed data channel with label: ' + receiveChannel.label);
+  localConnection.close();
+  remoteConnection.close();
+  localConnection = null;
+  remoteConnection = null;
+  console.log('Closed peer connections');
+  // sendButton.disabled = true;
+  // closeButton.disabled = true;
+  dataChannelSend.value = '';
+  dataChannelReceive.value = '';
+  dataChannelSend.disabled = true;
+  // disableSendButton();
+}
+
+function gotDescription1(desc) {
+  localConnection.setLocalDescription(desc);
+  console.log(`Offer from localConnection\n${desc.sdp}`);
+  remoteConnection.setRemoteDescription(desc);
+  remoteConnection.createAnswer().then(
+    gotDescription2,
+    onCreateSessionDescriptionError
+  );
+}
+
+function gotDescription2(desc) {
+  remoteConnection.setLocalDescription(desc);
+  console.log(`Answer from remoteConnection\n${desc.sdp}`);
+  localConnection.setRemoteDescription(desc);
+}
+
+function getOtherPc(pc) {
+  return (pc === localConnection) ? remoteConnection : localConnection;
+}
+
+function getName(pc) {
+  return (pc === localConnection) ? 'localPeerConnection' : 'remotePeerConnection';
+}
+
+function onIceCandidate(pc, event) {
+  getOtherPc(pc)
+    .addIceCandidate(event.candidate)
+    .then(
+      () => onAddIceCandidateSuccess(pc),
+      err => onAddIceCandidateError(pc, err)
+    );
+  console.log(`${getName(pc)} ICE candidate: ${event.candidate ? event.candidate.candidate : '(null)'}`);
+}
+
+function onAddIceCandidateSuccess() {
+  console.log('AddIceCandidate success.');
+}
+
+function onAddIceCandidateError(error) {
+  console.log(`Failed to add Ice Candidate: ${error.toString()}`);
+}
+
+function receiveChannelCallback(event) {
+  console.log('Receive Channel Callback');
+  receiveChannel = event.channel;
+  receiveChannel.onmessage = onReceiveMessageCallback;
+  receiveChannel.onopen = onReceiveChannelStateChange;
+  receiveChannel.onclose = onReceiveChannelStateChange;
+}
+
+function onReceiveMessageCallback(event) {
+  console.log('Received Message');
+  dataChannelReceive.value = event.data;
+}
+
+function onSendChannelStateChange() {
+  const readyState = sendChannel.readyState;
+  console.log('Send channel state is: ' + readyState);
+  if (readyState === 'open') {
+    dataChannelSend.disabled = false;
+    dataChannelSend.focus();
+    // sendButton.disabled = false;
+    // closeButton.disabled = false;
+  } else {
+    dataChannelSend.disabled = true;
+    // sendButton.disabled = true;
+    // closeButton.disabled = true;
+  }
+}
+
+function onReceiveChannelStateChange() {
+  const readyState = receiveChannel.readyState;
+  console.log(`Receive channel state is: ${readyState}`);
+}
+
+
+
