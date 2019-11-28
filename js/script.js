@@ -12,14 +12,14 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database().ref();
-// var locaVideo = document.getElementById("locaVideo");
-// var remoteVideo = document.getElementById("remoteVideo");
-// var yourId = Math.floor(Math.random()*1000000000);
-// //Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
-// var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
-// var pc = new RTCPeerConnection(servers);
-// pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
-// pc.onaddstream = (event => remoteVideo.srcObject = event.stream);
+var locaVideo = document.getElementById("locaVideo");
+var remoteVideo = document.getElementById("remoteVideo");
+var yourId = Math.floor(Math.random()*1000000000);
+//Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
+var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
+var pc = new RTCPeerConnection(servers);
+pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+pc.onaddstream = (event => remoteVideo.srcObject = event.stream);
 
 
 function sendMessage(senderId, data) {
@@ -45,17 +45,17 @@ function readMessage(data) {
 
 database.on('child_added', readMessage);
 
-// function start() {
-//   navigator.mediaDevices.getUserMedia({audio:true, video:true})
-//     .then(stream => localVideo.srcObject = stream)
-//     .then(stream => pc.addStream(stream));
-// }
+function start() {
+  navigator.mediaDevices.getUserMedia({audio:true, video:true})
+    .then(stream => localVideo.srcObject = stream)
+    .then(stream => pc.addStream(stream));
+}
 
-// function call() {
-//   pc.createOffer()
-//     .then(offer => pc.setLocalDescription(offer) )
-//     .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
-// }
+function call() {
+  pc.createOffer()
+    .then(offer => pc.setLocalDescription(offer) )
+    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
+}
 
 function goToPage() {
   window.location.href = 'https://ronimazouz1.github.io/index#tutor';
@@ -143,13 +143,12 @@ const dataChannelReceive = document.querySelector('textarea#receiveText');
 //   sendButton.disabled = true;
 // }
 
-var yourId = Math.floor(Math.random()*1000000000);
-
 
 function createTextConnection() {
   dataChannelSend.placeholder = '';
-  const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
-  window.localConnection = localConnection = new RTCPeerConnection(servers);
+  // window.localConnection = localConnection = new RTCPeerConnection(servers);
+  window.localConnection = localConnection = pc;
+
   console.log('Created local peer connection object localConnection');
 
   sendChannel = localConnection.createDataChannel('sendDataChannel');
@@ -158,7 +157,6 @@ function createTextConnection() {
 
   localConnection.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
-// pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
 
 
