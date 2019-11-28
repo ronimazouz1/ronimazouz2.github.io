@@ -143,6 +143,7 @@ const dataChannelReceive = document.querySelector('textarea#receiveText');
 //   sendButton.disabled = true;
 // }
 
+var yourId = Math.floor(Math.random()*1000000000);
 
 
 function createTextConnection() {
@@ -155,9 +156,7 @@ function createTextConnection() {
   console.log('Created send data channel');
 
 
-  localConnection.onicecandidate = e => {
-    onIceCandidate(localConnection, e);
-  };
+  localConnection.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
 // pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
@@ -174,7 +173,7 @@ function createTextConnection() {
   console.log('Created remote peer connection object remoteConnection');
 
   remoteConnection.onicecandidate = e => {
-    onIceCandidate(localConnection, e);
+    onIceCandidate(remoteConnection, e);
   };
   remoteConnection.ondatachannel = receiveChannelCallback;
 
