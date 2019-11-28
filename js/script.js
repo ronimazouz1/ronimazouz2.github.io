@@ -144,7 +144,7 @@ const dataChannelReceive = document.querySelector('textarea#receiveText');
 //   sendButton.disabled = true;
 // }
 
-function createConnection() {
+function createTextConnection() {
   dataChannelSend.placeholder = '';
   const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
   window.localConnection = localConnection = pc;
