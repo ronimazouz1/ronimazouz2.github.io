@@ -104,24 +104,49 @@ function autosize() {
 
 //TEXT MESSENGER PART
 
+
+// function createTextConnection() {
+//   dataChannel = pc.createDataChannel("chat");
+//   console.log('localConnection OK')
+
+//   dataChannel.onerror = (error) => {
+//     console.log("Data Channel Error:", error);
+//   };
+  
+//   dataChannel.onmessage = (event) => {
+//     console.log("Got Data Channel Message:", event.data);
+//   };
+  
+//   dataChannel.onopen = () => {
+//     dataChannel.send("Hello World!");
+//   };
+  
+//   dataChannel.onclose = () => {
+//     console.log("The Data Channel is Closed");
+//   };
+
+// }
+
 let localConnection;
 let remoteConnection;
 let sendChannel;
 let receiveChannel;
 const dataChannelSend = document.querySelector('textarea#text-message');
 const dataChannelReceive = document.querySelector('textarea#receiveText');
-const sendButton = document.querySelector('button#sendMessage');
+const sendButton = document.querySelector('button#sendButton');
+const closeButton = document.querySelector('button#closeButton');
 
 sendButton.onclick = sendData;
-
-sendButton.onclick = sendData;
-
+closeButton.onclick = closeDataChannels;
 
 
+function disableSendButton() {
+  sendButton.disabled = true;
+}
 
 function createTextConnection() {
   dataChannelSend.placeholder = '';
-  var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
+  const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
   window.localConnection = localConnection = new RTCPeerConnection(servers);
   console.log('Created local peer connection object localConnection');
 
@@ -131,8 +156,8 @@ function createTextConnection() {
   localConnection.onicecandidate = e => {
     onIceCandidate(localConnection, e);
   };
-  // sendChannel.onopen = onSendChannelStateChange;
-  // sendChannel.onclose = onSendChannelStateChange;
+  sendChannel.onopen = onSendChannelStateChange;
+  sendChannel.onclose = onSendChannelStateChange;
 
   window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
   console.log('Created remote peer connection object remoteConnection');
@@ -146,7 +171,7 @@ function createTextConnection() {
     gotDescription1,
     onCreateSessionDescriptionError
   );
-  // closeButton.disabled = false;
+  closeButton.disabled = false;
 }
 
 function onCreateSessionDescriptionError(error) {
@@ -171,6 +196,7 @@ function closeDataChannels() {
   remoteConnection = null;
   console.log('Closed peer connections');
   sendButton.disabled = true;
+  closeButton.disabled = true;
   dataChannelSend.value = '';
   dataChannelReceive.value = '';
   dataChannelSend.disabled = true;
@@ -232,18 +258,20 @@ function onReceiveMessageCallback(event) {
   dataChannelReceive.value = event.data;
 }
 
-// function onSendChannelStateChange() {
-//   const readyState = sendChannel.readyState;
-//   console.log('Send channel state is: ' + readyState);
-//   if (readyState === 'open') {
-//     dataChannelSend.disabled = false;
-//     dataChannelSend.focus();
-//     sendButton.disabled = false;
-//   } else {
-//     dataChannelSend.disabled = true;
-//     sendButton.disabled = true;
-//   }
-// }
+function onSendChannelStateChange() {
+  const readyState = sendChannel.readyState;
+  console.log('Send channel state is: ' + readyState);
+  if (readyState === 'open') {
+    dataChannelSend.disabled = false;
+    dataChannelSend.focus();
+    sendButton.disabled = false;
+    closeButton.disabled = false;
+  } else {
+    dataChannelSend.disabled = true;
+    sendButton.disabled = true;
+    closeButton.disabled = true;
+  }
+}
 
 function onReceiveChannelStateChange() {
   const readyState = receiveChannel.readyState;
