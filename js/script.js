@@ -136,8 +136,7 @@ const dataChannelReceive = document.querySelector('textarea#receiveText');
 const sendButton = document.querySelector('button#sendButton');
 const closeButton = document.querySelector('button#closeButton');
 
-sendButton.onclick = sendData;
-closeButton.onclick = closeDataChannels;
+// closeButton.onclick = closeDataChannels;
 
 
 function disableSendButton() {
