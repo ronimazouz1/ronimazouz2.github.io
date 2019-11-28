@@ -22,28 +22,28 @@ var database = firebase.database().ref();
 // pc.onaddstream = (event => remoteVideo.srcObject = event.stream);
 
 
-// function sendMessage(senderId, data) {
-//     var msg = database.push({ sender: senderId, message: data });
-//     msg.remove();
-// }
+function sendMessage(senderId, data) {
+    var msg = database.push({ sender: senderId, message: data });
+    msg.remove();
+}
 
-// function readMessage(data) {
-//     var msg = JSON.parse(data.val().message);
-//     var sender = data.val().sender;
-//     if (sender != yourId) {
-//         if (msg.ice != undefined)
-//             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
-//         else if (msg.sdp.type == "offer")
-//             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
-//               .then(() => pc.createAnswer())
-//               .then(answer => pc.setLocalDescription(answer))
-//               .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})));
-//         else if (msg.sdp.type == "answer")
-//             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
-//     }
-// };
+function readMessage(data) {
+    var msg = JSON.parse(data.val().message);
+    var sender = data.val().sender;
+    if (sender != yourId) {
+        if (msg.ice != undefined)
+            pc.addIceCandidate(new RTCIceCandidate(msg.ice));
+        else if (msg.sdp.type == "offer")
+            pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
+              .then(() => pc.createAnswer())
+              .then(answer => pc.setLocalDescription(answer))
+              .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})));
+        else if (msg.sdp.type == "answer")
+            pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+    }
+};
 
-// database.on('child_added', readMessage);
+database.on('child_added', readMessage);
 
 // function start() {
 //   navigator.mediaDevices.getUserMedia({audio:true, video:true})
@@ -160,10 +160,6 @@ function createTextConnection() {
 
 // pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
-function sendMessage(senderId, data) {
-    var msg = database.push({ sender: senderId, message: data });
-    msg.remove();
-}
 
 
   sendChannel.onopen = onSendChannelStateChange;
