@@ -152,7 +152,7 @@ function createTextConnection() {
   window.localConnection = localConnection = pc;
   console.log('Created local peer connection object localConnection');
 
-  sendChannel = localConnection.createDataChannel('sendDataChannel');
+  sendChannel = pc.createDataChannel('sendDataChannel');
   console.log('Created send data channel');
 
   localConnection.onicecandidate = e => {
