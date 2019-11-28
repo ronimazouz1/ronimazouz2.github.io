@@ -133,15 +133,15 @@ let sendChannel;
 let receiveChannel;
 const dataChannelSend = document.querySelector('textarea#text-message');
 const dataChannelReceive = document.querySelector('textarea#receiveText');
-const sendButton = document.querySelector('button#sendButton');
-const closeButton = document.querySelector('button#closeButton');
+// const sendButton = document.querySelector('button#sendButton');
+// const closeButton = document.querySelector('button#closeButton');
 
 // closeButton.onclick = closeDataChannels;
 
 
-function disableSendButton() {
-  sendButton.disabled = true;
-}
+// function disableSendButton() {
+//   sendButton.disabled = true;
+// }
 
 function createTextConnection() {
   dataChannelSend.placeholder = '';
@@ -170,7 +170,7 @@ function createTextConnection() {
     gotDescription1,
     onCreateSessionDescriptionError
   );
-  closeButton.disabled = false;
+  // closeButton.disabled = false;
 }
 
 function onCreateSessionDescriptionError(error) {
@@ -194,12 +194,12 @@ function closeDataChannels() {
   localConnection = null;
   remoteConnection = null;
   console.log('Closed peer connections');
-  sendButton.disabled = true;
-  closeButton.disabled = true;
+  // sendButton.disabled = true;
+  // closeButton.disabled = true;
   dataChannelSend.value = '';
   dataChannelReceive.value = '';
   dataChannelSend.disabled = true;
-  disableSendButton();
+  // disableSendButton();
 }
 
 function gotDescription1(desc) {
@@ -263,12 +263,12 @@ function onSendChannelStateChange() {
   if (readyState === 'open') {
     dataChannelSend.disabled = false;
     dataChannelSend.focus();
-    sendButton.disabled = false;
+    // sendButton.disabled = false;
     closeButton.disabled = false;
   } else {
     dataChannelSend.disabled = true;
-    sendButton.disabled = true;
-    closeButton.disabled = true;
+    // sendButton.disabled = true;
+    // closeButton.disabled = true;
   }
 }
 
