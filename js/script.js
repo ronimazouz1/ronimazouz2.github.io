@@ -8,6 +8,29 @@
 
 'use strict';
 
+
+var config = {
+  apiKey: "AIzaSyAi6lUUAZLrEnzBJLdYvfFFZsKVNRNv1nI",
+  authDomain: "tuto-826bc.firebaseapp.com",
+  databaseURL: "https://tuto-826bc.firebaseio.com",
+  projectId: "tuto-826bc",
+  storageBucket: "tuto-826bc.appspot.com",
+  messagingSenderId: "598214492111",
+  appId: "1:598214492111:web:4215623cf927af7eef9cba",
+  measurementId: "G-S2911NRVND"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database().ref();
+var locaVideo = document.getElementById("locaVideo");
+var remoteVideo = document.getElementById("remoteVideo");
+var yourId = Math.floor(Math.random()*1000000000);
+//Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
+var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
+
+
+
+
 const hangupButton = document.getElementById('hangupButton');
 hangupButton.disabled = true;
 hangupButton.addEventListener('click', hangup);
@@ -83,10 +106,10 @@ async function call() {
   }
   // const configuration = getSelectedSdpSemantics();
   // console.log('RTCPeerConnection configuration:', configuration);
-  pc1 = new RTCPeerConnection();
+  pc1 = new RTCPeerConnection(servers);
   console.log('Created local peer connection object pc1');
   pc1.addEventListener('icecandidate', e => onIceCandidate(pc1, e));
-  pc2 = new RTCPeerConnection();
+  pc2 = new RTCPeerConnection(servers);
   console.log('Created remote peer connection object pc2');
   pc2.addEventListener('icecandidate', e => onIceCandidate(pc2, e));
   pc1.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc1, e));
