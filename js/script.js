@@ -166,8 +166,8 @@ function createTextConnection() {
   window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
   console.log('Created remote peer connection object remoteConnection');
 
-  remoteConnection.onicecandidate (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice2") )
-  
+  remoteConnection.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice2") )
+
   remoteConnection.ondatachannel = receiveChannelCallback;
 
   localConnection.createOffer().then(
