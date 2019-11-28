@@ -158,13 +158,14 @@ function createTextConnection() {
   sendChannel.onopen = onSendChannelStateChange;
   sendChannel.onclose = onSendChannelStateChange;
 
-  window.remoteConnection = remoteConnection = localConnection;
+  window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
   console.log('Created remote peer connection object remoteConnection');
 
   remoteConnection.onicecandidate = e => {
     onIceCandidate(remoteConnection, e);
   };
   remoteConnection.ondatachannel = receiveChannelCallback;
+  localConnection.ondatachannel = receiveChannelCallback;
 
   localConnection.createOffer().then(
     gotDescription1,
