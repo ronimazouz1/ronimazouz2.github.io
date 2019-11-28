@@ -254,7 +254,8 @@ function receiveChannelCallback(event) {
 
 function onReceiveMessageCallback(event) {
   console.log('Received Message');
-  dataChannelReceive.value = event.data;
+  // dataChannelReceive.value = event.data;
+  document.querySelector("textarea#receiveText").innerHTML = event.data;
 }
 
 function onSendChannelStateChange() {
