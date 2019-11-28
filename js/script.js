@@ -106,22 +106,16 @@ async function call() {
   }
   // const configuration = getSelectedSdpSemantics();
   // console.log('RTCPeerConnection configuration:', configuration);
-  pc1 = new RTCPeerConnection(servers);
-  console.log('Created local peer connection object pc1');
-  pc1.addEventListener('icecandidate', e => onIceCandidate(pc1, e));
-  pc2 = new RTCPeerConnection(servers);
-  console.log('Created remote peer connection object pc2');
-  pc2.addEventListener('icecandidate', e => onIceCandidate(pc2, e));
-  pc1.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc1, e));
-  pc2.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc2, e));
-  pc2.addEventListener('track', gotRemoteStream);
+  var pc = new RTCPeerConnection(servers);
+  pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+  pc.onaddstream = (event => remoteVideo.srcObject = event.stream);
 
   localStream.getTracks().forEach(track => pc1.addTrack(track, localStream));
   console.log('Added local stream to pc1');
 
   try {
     console.log('pc1 createOffer start');
-    const offer = await pc1.createOffer(offerOptions);
+    const offer = await pc.createOffer(offerOptions);
     await onCreateOfferSuccess(offer);
   } catch (e) {
     onCreateSessionDescriptionError(e);
