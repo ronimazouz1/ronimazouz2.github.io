@@ -1244,6 +1244,7 @@ input:-webkit-autofill {
   font-size:14px;
   border-radius: 25px;
   display:grid;
+  float:left;
   white-space: pre-wrap;
 }
  
