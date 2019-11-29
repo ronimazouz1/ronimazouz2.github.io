@@ -146,6 +146,7 @@ $('.message-submit').click(function() {
     $('#attachmentPreview').hide(350);
     $('#attach').val('');
     count++;
+    sendData();
   });
 
 
