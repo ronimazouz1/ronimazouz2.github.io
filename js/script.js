@@ -160,7 +160,7 @@ function sendData() {
   console.log('Sent Data: ' + data);
 
 
-  var count = 1;
+var count = 1;
 $('.message-submit').click(function() {
     $('<div />', { class:'my-message' , id:'my-message-' + count})
        .append($('<b>' + 'moi'+ '</b>'))
