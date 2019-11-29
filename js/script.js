@@ -122,7 +122,7 @@ function createTextConnection() {
   window.localConnection = localConnection = pc;
   console.log('Created local peer connection object localConnection');
 
-  sendChannel = pc.createDataChannel('sendDataChannel');
+  sendChannel = localConnection.createDataChannel('sendDataChannel');
   console.log('Created send data channel');
 
   localConnection.onicecandidate = e => {
@@ -131,7 +131,7 @@ function createTextConnection() {
   sendChannel.onopen = onSendChannelStateChange;
   sendChannel.onclose = onSendChannelStateChange;
 
-  window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
+  window.remoteConnection = remoteConnection = pc;
   console.log('Created remote peer connection object remoteConnection');
 
   remoteConnection.onicecandidate = e => {
