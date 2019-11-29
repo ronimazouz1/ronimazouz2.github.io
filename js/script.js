@@ -65,7 +65,7 @@ function goToPage() {
 if (location.hash === "#tutor") {
   localVideo.onloadedmetadata = function() {
     call();
-    createTextConnection()
+    createTextConnection();
   };
 }
 
@@ -104,30 +104,6 @@ function autosize() {
 }
 
 
-//TEXT MESSENGER PART
-
-
-// function createTextConnection() {
-//   dataChannel = pc.createDataChannel("chat");
-//   console.log('localConnection OK')
-
-//   dataChannel.onerror = (error) => {
-//     console.log("Data Channel Error:", error);
-//   };
-  
-//   dataChannel.onmessage = (event) => {
-//     console.log("Got Data Channel Message:", event.data);
-//   };
-  
-//   dataChannel.onopen = () => {
-//     dataChannel.send("Hello World!");
-//   };
-  
-//   dataChannel.onclose = () => {
-//     console.log("The Data Channel is Closed");
-//   };
-
-// }
 
 
 let localConnection;
@@ -138,24 +114,15 @@ const dataChannelSend = document.querySelector('textarea#text-message');
 const dataChannelReceive = document.querySelector('textarea#receiveText');
 
 
-// function enableStartButton() {
-//   startButton.disabled = false;
-// }
-
-// function disableSendButton() {
-//   sendButton.disabled = true;
-// }
-
-
 
 
 function createTextConnection() {
   dataChannelSend.placeholder = '';
   const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'Test1234','username': 'rrmazouz@aol.com'}]};
-  window.localConnection = localConnection = new RTCPeerConnection(servers);
+  window.localConnection = localConnection = pc;
   console.log('Created local peer connection object localConnection');
 
-  sendChannel = localConnection.createDataChannel('sendDataChannel');
+  sendChannel = pc.createDataChannel('sendDataChannel');
   console.log('Created send data channel');
 
   localConnection.onicecandidate = e => {
