@@ -162,7 +162,6 @@ function sendData() {
 
   var count = 1;
 $('.message-submit').click(function() {
-  sendData();
     $('<div />', { class:'my-message' , id:'my-message-' + count})
        .append($('<b>' + 'moi'+ '</b>'))
        .append(document.getElementsByClassName('message-input')[0].value)
