@@ -3,47 +3,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
   </head>
-  <body onload="start(); createTextConnection();">
-    <!-- <video id="yourVideo" autoplay muted playsinline></video>
-    <video id="friendsVideo" autoplay playsinline></video>
-    <br /> -->
-
-
-    <div id="div-video-big" style="text-align: center;">
-      <video id="remoteVideo" style="width: 100%; height:100%" playsinline autoplay></video>
-      <div id="video-call-bottom" style="padding-bottom: 10px">
-          <div id="div-video-small" class="cdk-drag-animating" cdkDragBoundary="#div-video-big" cdkDrag>
-              <!-- <img style="width: 100%;height: 100%;" src="assets/img/student.jpg" /> -->
-              <video id="localVideo" style="width: 100%"playsinline autoplay></video>
-            </div>
-      </div>
-    </div>
-
-    <div id="div-messenger">
-      <textarea id="receiveText"></textarea>
-    </div>
+  <body>
     
-    <div class="messenger-bottom">
-    
-      <input id="attach" type="file" style="display: none"/>
-      <label id="label-attach" for="attach">
-          <img src="img/camera.png" style="width: 10%;" />
-      </label>
-      <div class="message-box">
-        <div id ="attachmentPreview">
-          <img src="img/icon-close.png" id="icon-close" onclick="closeAttachment()" />
-        </div>
-        <textarea id="text-message" type="text" rows='1' class="message-input" placeholder="Votre message..."></textarea>
-      </div>
-        <button id="sendMessage" type="submit" class="message-submit">
-          <img src="img/send.png" style="width: 100%;" />
-        </button>
-      </div>
+    <div style="margin-top: 50vh;"></div>
+    <a class="two-buttons" style="float: left; margin-left: 10%; text-align: center;" href="call_page.html">User</a>
+    <a class="two-buttons" style="float: right; margin-right: 10%; text-align: center;" href="call_page_trainer.html">Trainer</a>
 
 
-    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-    <script src="js/script.js" ></script>
   </body>
 </html>
