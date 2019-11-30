@@ -60,15 +60,6 @@ function call() {
     .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
 }
 
-// function goToPage() {
-//   window.location.href = 'https://ronimazouz1.github.io/index#trainer';
-// }
-
-if (location.pathname == "call_page_trainer.html") {
-  localVideo.onloadedmetadata = function() {
-    call();
-  };
-}
 
 
 
