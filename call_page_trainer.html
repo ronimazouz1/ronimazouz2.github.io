@@ -5,6 +5,8 @@
   </head>
   <body onload="start();">
 
+  <input type="hidden" value="waqar" id="room-id">
+  <input type="hidden" value="waqarulzafar" id="connection-id">
     <div id="div-video-big" style="text-align: center;">
       <video id="remoteVideo" style="width: 100%; height:100%" playsinline autoplay></video>
       <div id="video-call-bottom" style="padding-bottom: 10px">
@@ -18,14 +20,15 @@
     
     <div class="messenger-bottom">
     
-      <input id="attach" type="file" style="display: none" accept="image/*"/>
-      <label id="label-attach" for="attach">
+      <!--<input id="attach" type="file" style="display: none" accept="image/*"/>-->
+      <label id="label-attach" class="btn-select-file" for="attach">
           <img src="img/camera.png" style="width: 10%;" />
       </label>
       <div class="message-box">
         <div id ="attachmentPreview">
           <img src="img/icon-close.png" id="icon-close" onclick="closeAttachment()" />
         </div>
+
         <textarea id="text-message" type="text" rows='1' class="message-input" placeholder="Votre message..."></textarea>
       </div>
         <button id="sendMessage" type="submit" class="message-submit">
@@ -34,10 +37,15 @@
       </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-    <script src="js/script.js" ></script>
+      <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+      <!-- <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script> -->
+      <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+      <script src="js/FileBufferReader.js"></script>
+      <script src="js/FileSelector.js"></script>
+      <script src="js/RTCMultiConnection.js"></script>
+  
+      <script src="js/scriptwebrtc.js" ></script>
 
     <script>
   localVideo.onloadedmetadata = function() {
