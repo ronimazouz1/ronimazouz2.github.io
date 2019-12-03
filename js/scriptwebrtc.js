@@ -79,11 +79,11 @@ connection.onstream = function(event) {
 
     // connection.videosContainer.appendChild(mediaElement);
 
-    setTimeout(function() {
-        mediaElement.media.play();
-    }, 5000);
+    // setTimeout(function() {
+    //     mediaElement.media.play();
+    // }, 5000);
 
-    mediaElement.id = event.streamid;
+    // mediaElement.id = event.streamid;
 
     // to keep room-id in cache
     localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
