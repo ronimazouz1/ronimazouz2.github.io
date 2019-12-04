@@ -1,3 +1,5 @@
+
+
 var connection = new RTCMultiConnection();
 
 // by default, socket.io server is assumed to be deployed on your own URL
@@ -6,10 +8,10 @@ connection.enableFileSharing = true; // by default, it is "false".
 
 
 // comment-out below line if you do not have your own socket.io server
-connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
 connection.socketMessageEvent = 'Video-Plus-Text-Chat';
-
+connection.maxParticipantsAllowed=2;
 connection.session = {
     audio: true,
     video: true,
@@ -69,21 +71,7 @@ connection.onstream = function(event) {
     }
     video.srcObject = event.stream;
 
-    // var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
-    // var mediaElement = getHTMLMediaElement(video, {
-    //     title: event.userid,
-    //     buttons: ['full-screen'],
-    //     width: width,
-    //     showOnMouseEnter: false
-    // });
 
-    // connection.videosContainer.appendChild(mediaElement);
-
-    // setTimeout(function() {
-    //     mediaElement.media.play();
-    // }, 5000);
-
-    // mediaElement.id = event.streamid;
 
     // to keep room-id in cache
     localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
@@ -165,21 +153,7 @@ function disableInputButtons(enable) {
 // ......................Handling Room-ID................
 // ......................................................
 
-function showRoomURL(roomid) {
-    var roomHashURL = '#' + roomid;
-    var roomQueryStringURL = '?roomid=' + roomid;
 
-    var html = '<h2>Unique URL for your room:</h2><br>';
-
-    html += 'Hash URL: <a href="' + roomHashURL + '" target="_blank">' + roomHashURL + '</a>';
-    html += '<br>';
-    html += 'QueryString URL: <a href="' + roomQueryStringURL + '" target="_blank">' + roomQueryStringURL + '</a>';
-
-    var roomURLsDiv = document.getElementById('room-urls');
-    roomURLsDiv.innerHTML = html;
-
-    roomURLsDiv.style.display = 'block';
-}
 
 (function() {
     var params = {},
@@ -243,8 +217,8 @@ if(navigator.connection &&
     alert('2G is not supported. Please use a better internet service.');
 }
 function  start() {
-    var room=document.getElementById('connection-id').value;
-    connection.openOrJoin(room);
+    // var room=document.getElementById('connection-id').value;
+    // connection.openOrJoin(room);
 }
 
 document.getElementById('text-message').onkeyup = function(e) {
@@ -259,13 +233,52 @@ document.getElementById('text-message').onkeyup = function(e) {
     this.value = '';
 };
 
+const reader = new FileReader();
+reader.onload = function() {
+    var i = count -1;
+    var id = 'container-' + i;
+    $('#attachmentPreview').fadeIn(650);
+    $('#attachmentPreview').css('background-image', 'url(' + reader.result + ')');
 
-document.getElementById('label-attach').onclick = function() {
-    var fileSelector = new FileSelector();
-    fileSelector.selectSingleFile(function(file) {
-        connection.send(file);
-    });
 };
+
+var myfile;
+var fileCheck=false;
+function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#attachmentPreview').css({backgroundImage: "url('" + e.target.result + "')"});
+            $('#attachmentPreview').show(650);
+            // connection.send(input.files[0]);
+        myfile=input.files[0];
+        }
+        reader.readAsDataURL(input.files[0]);
+    fileCheck=true;
+    }
+}
+$('#sendMessage').on('click',function (e) {
+    var message=document.getElementById('text-message').value;
+    if (fileCheck==true){
+        connection.send(myfile);
+    } else {
+        appendDIV(message)
+    }
+    fileCheck=false;
+    $('#attachmentPreview').hide(350);
+    $('#attach').val('');
+    document.getElementById('text-message').value='';
+});
+
+function closeAttachment() {
+    $('#attachmentPreview').hide(350);
+    $('#attach').val('');
+}
+
+$("#attach").change(function() {
+    readURL(this);
+});
 
 connection.filesContainer = document.getElementById('div-messenger');
 
@@ -313,19 +326,19 @@ function appendDIV(event) {
 console.log(event.data);
 console.log(event);
  if (event.data) {
-     $('<div/>', {class: 'my-message', id: 'my-message-' + count})
+     $('<div/>', {class: 'other-message', id: 'my-message-' + count})
          .append($('<b>' + 'moi' + '</b>'))
          .append(event.data || event)
          .append($('<div />', {class: 'attachment-container', id: 'container-' + count}))
          .append('<span class="time" id="my-datetime">' + ((("0" + new Date().getHours()).slice(-2)) + ":" + (("0" + new Date().getMinutes()).slice(-2))) + '</span>')
-         .appendTo("#div-messenger");
+         .appendTo("#div-messenger").css('float','left');;
  }else {
      $('<div/>', {class: 'my-message', id: 'my-message-' + count})
          .append($('<b>' + 'moi' + '</b>'))
          .append(event.data || event)
          .append($('<div />', {class: 'attachment-container', id: 'container-' + count}))
          .append('<span class="time" id="my-datetime">' + ((("0" + new Date().getHours()).slice(-2)) + ":" + (("0" + new Date().getMinutes()).slice(-2))) + '</span>')
-         .appendTo("#div-messenger").css('float','left');
+         .appendTo("#div-messenger").css('float','right');
  }
     $('#my-message-' + count).hide();
     $('#my-message-' + count).fadeIn(650);
@@ -335,11 +348,6 @@ console.log(event);
         $('#div-messenger').animate({scrollTop: $('#div-messenger').get(0).scrollHeight}, 400);
     }, 100);
 
-    // setTimeout(function() {
-    //     textarea.style.cssText = 'height:auto';
-    //     textarea.style.cssText = 'height:' + this.scrollHeight + 'px';
-    //     document.getElementById("text-message").value = "";
-    // }, 0);
 
 }
 connection.onFileProgress = function (chunk, uuid) {
@@ -352,18 +360,25 @@ connection.onFileStart = function (file) {
     div.title = file.name;
     div.innerHTML = '<label>0%</label> <progress></progress>';
     document.body.appendChild(div);
+
+    $('<div />', { class:'my-message' , id:'my-message-' + count})
+        .append($('<b>' + 'moi'+ '</b>'))
+        .append(div)
+        .append($('<div />', { class:'attachment-container', id:'container-' + count }))
+        .append('<span class="time" id="my-datetime">' +  ( (("0"+new Date().getHours()).slice(-2)) +":"+ (("0"+new Date().getMinutes()).slice(-2))) + '</span>')
+        .appendTo("#div-messenger");
     progressHelper[file.uuid] = { div: div, progress: div.querySelector('progress'), label: div.querySelector('label') };
     progressHelper[file.uuid].progress.max = file.maxChunks;
 };
 connection.onFileEnd = function (file) {
-    // progressHelper[file.uuid].div.innerHTML = '<a href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>'; }; function updateLabel(progress, label) { if (progress.position == -1) return; var position = +progress.position.toFixed(2).split('.')[1] || 100;
-    // label.innerHTML = position + '%';
+
+    $('my-message-' + count).hide(100);
     var message='';
-    if (isFileImage(file)) {
-        message = '<a href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name +'<img src="'+file.url+'" style="width: 150px;">'+ '</a>';
+    if (hasExtension(file.name,['.jpg', '.gif', '.png','.jpeg'])) {
+        message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name +'<img src="'+file.url+'" style="width: 150px;display: block;    margin: 2px;">'+ '</a>';
 
     }else {
-        message = '<a href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
+        message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
 
     }
 
@@ -380,14 +395,45 @@ connection.onFileEnd = function (file) {
         $('#div-messenger').animate({scrollTop: $('#div-messenger').get(0).scrollHeight}, 400);
     }, 100);
 
-    // setTimeout(function() {
-    //     textarea.style.cssText = 'height:auto';
-    //     textarea.style.cssText = 'height:' + this.scrollHeight + 'px';
-    //     document.getElementById("text-message").value = "";
-    // }, 0);
+
 }
 
-function isFileImage(file) {
-    const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
-    return file && $.inArray(file['type'], acceptedImageTypes)
+function hasExtension(fileName, exts) {
+
+    return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$')).test(fileName);
 }
+
+var currentUserName = document.getElementById('userid');
+currentUserName.onkeyup = currentUserName.onpaste = currentUserName.oninput = function() {
+    localStorage.setItem(this.id, this.value);
+};
+currentUserName.value = localStorage.getItem(currentUserName.id) || connection.token();
+document.getElementById('setup-my-username').onclick = function() {
+    this.disabled = true;
+    connection.open(currentUserName.value, function(isRoomOpened, roomid, error) {
+        if(error) {
+            alert(error);
+        }
+        joinCalleeUsingHisUsername.disabled = false;
+    });
+};
+var calleeUserName=document.getElementById('otheruserid');
+var joinCalleeUsingHisUsername = document.getElementById('join-callee-using-his-username');
+joinCalleeUsingHisUsername.onclick = function() {
+    this.disabled = true;
+    connection.checkPresence(calleeUserName.value, function(isOnline, username) {
+        if(!isOnline) {
+            joinCalleeUsingHisUsername.disabled = false;
+            alert(username + ' is not online.');
+            return;
+        }
+        connection.join(username, function(isRoomJoined, roomid, error) {
+            if(error) {
+                alert(error);
+            }
+        });
+    });
+    setTimeout(function() {
+        joinCalleeUsingHisUsername.disabled = false;
+    }, 1000);
+};

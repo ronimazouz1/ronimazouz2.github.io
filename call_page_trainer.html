@@ -2,6 +2,31 @@
   <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style>
+      #userid{
+        border-radius: 10px;
+        border: 1px solid green;
+        padding: 10px 10px;
+        color: black;
+        margin: 10px;
+      }
+      .myuserid-btn{
+        border-radius: 10px;
+        border: 1px solid green;
+        padding: 10px 10px;
+        color: black;
+        color: white;
+        margin: 10px;
+        background: linear-gradient( #ee123e, #cc1536, #641725, #d51e4d);
+      }
+      #otheruserid{
+        border-radius: 10px;
+        border: 1px solid green;
+        padding: 10px 10px;
+        color: black;
+        margin: 10px;
+      }
+    </style>
   </head>
   <body onload="start();">
 
@@ -20,7 +45,7 @@
     
     <div class="messenger-bottom">
     
-      <!--<input id="attach" type="file" style="display: none" accept="image/*"/>-->
+      <input id="attach" type="file" style="display: none" accept="image/*"/>
       <label id="label-attach" class="btn-select-file" for="attach">
           <img src="img/camera.png" style="width: 10%;" />
       </label>
@@ -35,6 +60,14 @@
           <img src="img/send.png" style="width: 100%;" />
         </button>
       </div>
+  <div class="myuserid">
+    <input type="text" id="userid" placeholder="Enter Your ID Here..." value="prof">
+    <button type="button" id="setup-my-username" class="myuserid-btn">Open</button>
+  </div>
+  <div class="myuserid">
+    <input type="text" id="otheruserid" placeholder="Enter Other User ID..." value="eleve">
+    <button type="button" id="join-callee-using-his-username" class="myuserid-btn ">Join</button>
+  </div>
 
 
       <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
