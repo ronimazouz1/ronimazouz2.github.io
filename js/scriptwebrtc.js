@@ -381,7 +381,7 @@ connection.onFileEnd = function (file) {
 
     }
 
-    $('<div />', { class:'other-message' , id:'other-message-' + count})
+    $('<div />', { class:'my-message' , id:'my-message-' + count})
         .append($('<b>' + 'moi'+ '</b>'))
         .append( message || event)
         .append($('<div />', { class:'attachment-container', id:'container-' + count }))
