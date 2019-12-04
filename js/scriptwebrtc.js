@@ -321,7 +321,7 @@ function updateLabel(progress, label) {
 
 
 function appendDIV(event) {
-    console.log(event);
+console.log(event);
 console.log(event.data);
 console.log(event);
  if (event.data) {
@@ -381,7 +381,7 @@ connection.onFileEnd = function (file) {
 
     }
 
-    $('<div />', { class:'my-message' , id:'my-message-' + count})
+    $('<div />', { class:'other-message' , id:'other-message-' + count})
         .append($('<b>' + 'moi'+ '</b>'))
         .append( message || event)
         .append($('<div />', { class:'attachment-container', id:'container-' + count }))
