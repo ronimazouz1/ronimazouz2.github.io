@@ -45,7 +45,7 @@
     
     <div class="messenger-bottom">
     
-      <input id="attach" type="file" style="display: none" accept="image/*"/>
+      <input id="attach" type="file" style="display: none">
       <label id="label-attach" class="btn-select-file" for="attach">
           <img src="img/camera.png" style="width: 10%;" />
       </label>
@@ -80,11 +80,13 @@
   
       <script src="js/scriptwebrtc.js" ></script>
 
-    <!-- <script>
-  localVideo.onloadedmetadata = function() {
-    call();
-    }
-    </script> -->
+    <script>
+  // localVideo.onloadedmetadata = function() {
+  //   call();
+  //   }
+    $('#userid').val('prof');
+    $('#otheruserid').val('eleve');
+    </script>
 
 
   </body>
