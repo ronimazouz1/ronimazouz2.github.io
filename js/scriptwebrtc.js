@@ -407,7 +407,7 @@ currentUserName.onkeyup = currentUserName.onpaste = currentUserName.oninput = fu
     localStorage.setItem(this.id, this.value);
 };
 currentUserName.value = localStorage.getItem(currentUserName.id) || connection.token();
-document.getElementById('setup-my-username').window.onload = function() {
+document.getElementById('setup-my-username').onclick = function() {
     this.disabled = true;
     connection.open(currentUserName.value, function(isRoomOpened, roomid, error) {
         if(error) {
@@ -418,7 +418,7 @@ document.getElementById('setup-my-username').window.onload = function() {
 };
 var calleeUserName=document.getElementById('otheruserid');
 var joinCalleeUsingHisUsername = document.getElementById('join-callee-using-his-username');
-joinCalleeUsingHisUsername.window.onload = function() {
+joinCalleeUsingHisUsername.onclick = function() {
     this.disabled = true;
     connection.checkPresence(calleeUserName.value, function(isOnline, username) {
         if(!isOnline) {
