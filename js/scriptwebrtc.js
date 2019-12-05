@@ -231,14 +231,14 @@ document.getElementById('text-message').onkeyup = function(e) {
     this.value = '';
 };
 
-const reader = new FileReader();
-reader.onload = function() {
-    var i = count -1;
-    var id = 'container-' + i;
-    $('#attachmentPreview').fadeIn(650);
-    $('#attachmentPreview').css('background-image', 'url(' + reader.result + ')');
+// const reader = new FileReader();
+// reader.onload = function() {
+//     var i = count -1;
+//     var id = 'container-' + i;
+//     $('#attachmentPreview').fadeIn(650);
+//     $('#attachmentPreview').css('background-image', 'url(' + reader.result + ')');
 
-};
+// };
 
 var myfile;
 var fileCheck=false;
