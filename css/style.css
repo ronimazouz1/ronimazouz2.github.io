@@ -375,3 +375,13 @@ video::-webkit-media-controls-start-playback-button {
 #remoteVideo {
   object-fit: fill;
 }
+
+
+.progress-bar {
+  animation: mymove .5s infinite alternate;
+}
+
+@-webkit-keyframes mymove {
+  from {opacity:0;}
+  to {opacity: 1;}
+}
