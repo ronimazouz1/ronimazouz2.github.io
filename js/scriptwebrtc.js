@@ -362,7 +362,7 @@ connection.onFileStart = function (file) {
     //progress Bar code here
     var div = document.createElement('div');
     div.title = file.name;
-    div.innerHTML = '<label>0%</label> <progress></progress>';
+    div.innerHTML = '<label class="progress-label">0%</label> <progress></progress>';
     document.body.appendChild(div);
 
     $('<div />', { class:'progress-bar'})

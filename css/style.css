@@ -380,7 +380,7 @@ video::-webkit-media-controls-start-playback-button {
 .progress-bar {
   animation: mymove .5s infinite alternate;
   background-color: rgb(57, 59, 61);
-  border-radius: 5px;
+  border-radius: 10px;
   width: 200px;
   height: 50px;
   position: absolute;
