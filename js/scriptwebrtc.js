@@ -247,7 +247,11 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
+            if(hasExtension(file.name,['.jpg', '.gif', '.png','.jpeg'])) {
             $('#attachmentPreview').css({backgroundImage: "url('" + e.target.result + "')"});
+            } else {
+            $('#attachmentPreview').css({backgroundColor: "rgb(57, 59, 61)"});
+            }
             $('#attachmentPreview').show(650);
             // connection.send(input.files[0]);
         myfile=input.files[0];
@@ -394,7 +398,7 @@ connection.onFileEnd = function (file) {
     $('<div />', { class:classMe , id:'my-message-' + count})
         .append($('<b>' + 'moi'+ '</b>'))
         .append( message || event)
-        .append($('<div />', { class:'attachment-container', id:'container-' + count }))
+        // .append($('<div />', { class:'attachment-container', id:'container-' + count }))
         .append('<span class="time" id="my-datetime">' +  ( (("0"+new Date().getHours()).slice(-2)) +":"+ (("0"+new Date().getMinutes()).slice(-2))) + '</span>')
         .appendTo("#div-messenger");
     $('#my-message-' + count).hide();
