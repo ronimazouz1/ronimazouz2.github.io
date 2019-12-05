@@ -360,18 +360,18 @@ connection.onFileStart = function (file) {
     div.innerHTML = '<label>0%</label> <progress></progress>';
     document.body.appendChild(div);
 
-    $('<div />', { class:'my-message' , id:'my-message-' + count})
+    $('<div />', { class:'progress-bar' , id:'my-message-' + count})
         .append($('<b>' + 'moi'+ '</b>'))
         .append(div)
         .append($('<div />', { class:'attachment-container', id:'container-' + count }))
         .append('<span class="time" id="my-datetime">' +  ( (("0"+new Date().getHours()).slice(-2)) +":"+ (("0"+new Date().getMinutes()).slice(-2))) + '</span>')
-        .appendTo("#div-messenger").hide();
+        .appendTo("#div-messenger");
     progressHelper[file.uuid] = { div: div, progress: div.querySelector('progress'), label: div.querySelector('label') };
     progressHelper[file.uuid].progress.max = file.maxChunks;
 };
 connection.onFileEnd = function (file) {
 
-    $('my-message-' + count).hide(100);
+    $('.progress-bar').hide(100);
     var message='';
     if (hasExtension(file.name,['.jpg', '.gif', '.png','.jpeg'])) {
         message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name +'<img src="'+file.url+'" style="width: 150px;display: block;    margin: 2px;">'+ '</a>';
