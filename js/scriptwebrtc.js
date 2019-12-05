@@ -247,11 +247,7 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
-            if(hasExtension(input.files[0],['.jpg', '.gif', '.png','.jpeg'])) {
             $('#attachmentPreview').css({backgroundImage: "url('" + e.target.result + "')"});
-            } else {
-            $('#attachmentPreview').css({backgroundColor: "rgb(57, 59, 61)"});
-            }
             $('#attachmentPreview').show(650);
             // connection.send(input.files[0]);
         myfile=input.files[0];
