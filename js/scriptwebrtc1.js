@@ -1,4 +1,3 @@
-
 var connection = new RTCMultiConnection();
 
 // by default, socket.io server is assumed to be deployed on your own URL
@@ -257,6 +256,9 @@ function readURL(input) {
     fileCheck=true;
     }
 }
+
+var mymessageCheck=false;
+
 $('#sendMessage').on('click',function (e) {
     var message=document.getElementById('text-message').value;
     if (fileCheck==true){
@@ -267,6 +269,7 @@ $('#sendMessage').on('click',function (e) {
     fileCheck=false;
     $('#attachmentPreview').hide(350);
     $('#attach').val('');
+    mymessageCheck=true;
     document.getElementById('text-message').value='';
 });
 
@@ -321,7 +324,7 @@ function updateLabel(progress, label) {
 
 
 function appendDIV(event) {
-console.log(event);
+    console.log(event);
 console.log(event.data);
 console.log(event);
  if (event.data) {
@@ -354,18 +357,20 @@ connection.onFileProgress = function (chunk, uuid) {
     helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
     updateLabel(helper.progress, helper.label);
 };
+//Progress Bar Code Goes Here
 connection.onFileStart = function (file) {
+    //progress Bar code here
     var div = document.createElement('div');
     div.title = file.name;
     div.innerHTML = '<label>0%</label> <progress></progress>';
-    document.body.appendChild(div);
+    // document.body.appendChild(div);
 
-    $('<div />', { class:'my-message' , id:'my-message-' + count})
-        .append($('<b>' + 'moi'+ '</b>'))
-        .append(div)
-        .append($('<div />', { class:'attachment-container', id:'container-' + count }))
-        .append('<span class="time" id="my-datetime">' +  ( (("0"+new Date().getHours()).slice(-2)) +":"+ (("0"+new Date().getMinutes()).slice(-2))) + '</span>')
-        .appendTo("#div-messenger").hide();
+    // $('<div />', { class:'my-message' , id:'my-message-' + count})
+    //     .append($('<b>' + 'moi'+ '</b>'))
+    //     .append(div)
+    //     .append($('<div />', { class:'attachment-container', id:'container-' + count }))
+    //     .append('<span class="time" id="my-datetime">' +  ( (("0"+new Date().getHours()).slice(-2)) +":"+ (("0"+new Date().getMinutes()).slice(-2))) + '</span>')
+    //     .appendTo("#div-messenger").hide();
     progressHelper[file.uuid] = { div: div, progress: div.querySelector('progress'), label: div.querySelector('label') };
     progressHelper[file.uuid].progress.max = file.maxChunks;
 };
@@ -380,8 +385,15 @@ connection.onFileEnd = function (file) {
         message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
 
     }
+    var classMe='';
+    if (mymessageCheck){
+        classMe='my-message';
+        mymessageCheck=false;
+    }else {
+        classMe='other-message'
+    }
 
-    $('<div />', { class:'my-message' , id:'my-message-' + count})
+    $('<div />', { class:classMe , id:'my-message-' + count})
         .append($('<b>' + 'moi'+ '</b>'))
         .append( message || event)
         .append($('<div />', { class:'attachment-container', id:'container-' + count }))
