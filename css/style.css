@@ -390,6 +390,10 @@ video::-webkit-media-controls-start-playback-button {
   font-weight: 200;
 }
 
+.progress-label {
+  font-weight: 300;
+}
+
 @-webkit-keyframes mymove {
   from {opacity:0;}
   to {opacity: 1;}

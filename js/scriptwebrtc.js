@@ -366,7 +366,7 @@ connection.onFileStart = function (file) {
     document.body.appendChild(div);
 
     $('<div />', { class:'progress-bar'})
-        .append($('<label>' + 'transfer de fichier en cours'+ '</label>'))
+        .append($('<label class="progress-label">' + 'transfer de fichier en cours'+ '</label>'))
         .append(div)
         .appendTo("#div-messenger");
     progressHelper[file.uuid] = { div: div, progress: div.querySelector('progress'), label: div.querySelector('label') };
