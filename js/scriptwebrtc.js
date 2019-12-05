@@ -377,14 +377,7 @@ connection.onFileEnd = function (file) {
     $('my-message-' + count).hide(100);
     var message='';
     if (hasExtension(file.name,['.jpg', '.gif', '.png','.jpeg'])) {
-        message =   '<div class="attachment-container">'
-                    + '<a style="color:white;" href="' 
-                    + file.url + '" target="_blank" download="' 
-                    + file.name + '">' 
-                    + file.name 
-                    +'<img src="'+file.url+'" style="width: 100%;display: block;    margin: 2px;">'
-                    + '</a>'
-                    + '</div>';
+        message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name +'<img src="'+file.url+'" style="width: 75px;display: block; margin: 5px; float: right; border-radius: 10px">'+ '</a>';
 
     }else {
         message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
