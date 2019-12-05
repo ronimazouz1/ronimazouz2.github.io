@@ -394,7 +394,7 @@ connection.onFileEnd = function (file) {
         $('#div-messenger').animate({scrollTop: $('#div-messenger').get(0).scrollHeight}, 400);
     }, 100);
 
-    $('.progress-bar').hide(100);
+    $('.progress-bar').hide(300);
 
 }
 
