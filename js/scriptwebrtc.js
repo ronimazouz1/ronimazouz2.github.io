@@ -382,7 +382,7 @@ connection.onFileEnd = function (file) {
                     + file.url + '" target="_blank" download="' 
                     + file.name + '">' 
                     + file.name 
-                    +'<img src="'+file.url+'" style="width: 150px;display: block;    margin: 2px;">'
+                    +'<img src="'+file.url+'" style="width: 100%;display: block;    margin: 2px;">'
                     + '</a>'
                     + '</div>';
 
