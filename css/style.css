@@ -379,10 +379,11 @@ video::-webkit-media-controls-start-playback-button {
 
 .progress-bar {
   animation: mymove .5s infinite alternate;
-  float: left;
+  float: right;
   background-color: slategray;
   border-radius: 10px;
-  width: 100px;
+  width: 20vw;
+  height: 5vh; 
 }
 
 @-webkit-keyframes mymove {
