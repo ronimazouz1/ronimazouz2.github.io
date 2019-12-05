@@ -382,7 +382,7 @@ video::-webkit-media-controls-start-playback-button {
   background-color: rgb(57, 59, 61);
   border-radius: 10px;
   width: 20vw;
-  height: 5vh;
+  height: 10vh;
   position: absolute;
   bottom: 10vh;
   z-index: 100;
