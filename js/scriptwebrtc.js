@@ -1,7 +1,7 @@
 var connection = new RTCMultiConnection();
 
 // by default, socket.io server is assumed to be deployed on your own URL
-connection.socketURL = 'https://ronimazouz1.github.io:443';
+connection.socketURL = 'https://ronimazouz1.github.io:443/';
 connection.enableFileSharing = true; // by default, it is "false".
 
 
