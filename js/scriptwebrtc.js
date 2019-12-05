@@ -371,7 +371,6 @@ connection.onFileStart = function (file) {
 };
 connection.onFileEnd = function (file) {
 
-    $('.progress-bar').hide(100);
     var message='';
     if (hasExtension(file.name,['.jpg', '.gif', '.png','.jpeg'])) {
         message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name +'<img src="'+file.url+'" style="width: 150px;display: block;    margin: 2px;">'+ '</a>';
@@ -393,6 +392,8 @@ connection.onFileEnd = function (file) {
     setTimeout(() => {
         $('#div-messenger').animate({scrollTop: $('#div-messenger').get(0).scrollHeight}, 400);
     }, 100);
+
+    $('.progress-bar').hide(100);
 
 
 }
