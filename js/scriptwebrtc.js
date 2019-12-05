@@ -360,7 +360,7 @@ connection.onFileStart = function (file) {
     div.innerHTML = '<label>0%</label> <progress></progress>';
     document.body.appendChild(div);
 
-    $('<div />', { class:'progress-bar' , id:'my-message-' + count})
+    $('<div />', { class:'progress-bar' , id:'progress-bar' + count})
         .append($('<b>' + 'moi'+ '</b>'))
         .append(div)
         .append($('<div />', { class:'attachment-container', id:'container-' + count }))
@@ -380,7 +380,7 @@ connection.onFileEnd = function (file) {
 
     }
 
-    $('.progress-bar').hide(100);
+    $('#progress-bar' + count).hide(100);
 
 
     $('<div />', { class:'my-message' , id:'my-message-' + count})
