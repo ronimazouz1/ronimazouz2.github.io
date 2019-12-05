@@ -48,7 +48,7 @@ connection.onstream = function(event) {
     event.mediaElement.volume = 0;
     if(event.type === 'local') {
         var video = document.getElementById('localVideo');
-    }else {
+    } else {
         var video = document.getElementById('remoteVideo');
     }
     try {
@@ -87,8 +87,7 @@ connection.onstream = function(event) {
             });
             recorder.startRecording();
             connection.recorder = recorder;
-        }
-        else {
+        } else {
             recorder.getInternalRecorder().addStreams([event.stream]);
         }
 
@@ -231,14 +230,6 @@ document.getElementById('text-message').onkeyup = function(e) {
     this.value = '';
 };
 
-// const reader = new FileReader();
-// reader.onload = function() {
-//     var i = count -1;
-//     var id = 'container-' + i;
-//     $('#attachmentPreview').fadeIn(650);
-//     $('#attachmentPreview').css('background-image', 'url(' + reader.result + ')');
-
-// };
 
 var myfile;
 var fileCheck=false;
@@ -334,7 +325,7 @@ console.log(event);
          .append($('<div />', {class: 'attachment-container', id: 'container-' + count}))
          .append('<span class="time" id="my-datetime">' + ((("0" + new Date().getHours()).slice(-2)) + ":" + (("0" + new Date().getMinutes()).slice(-2))) + '</span>')
          .appendTo("#div-messenger").css('float','left');;
- }else {
+ } else {
      $('<div/>', {class: 'my-message', id: 'my-message-' + count})
          .append($('<b>' + 'moi' + '</b>'))
          .append(event.data || event)
@@ -373,13 +364,11 @@ connection.onFileStart = function (file) {
     progressHelper[file.uuid].progress.max = file.maxChunks;
 };
 connection.onFileEnd = function (file) {
-
-    $('my-message-' + count).hide(100);
     var message='';
     if (hasExtension(file.name,['.jpg', '.gif', '.png','.jpeg'])) {
         message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name +'<img src="'+file.url+'" style="width: 75px;display: block; margin: 5px; float: right; border-radius: 10px">'+ '</a>';
 
-    }else {
+    } else {
         message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
 
     }
@@ -387,7 +376,7 @@ connection.onFileEnd = function (file) {
     if (mymessageCheck){
         classMe='my-message';
         mymessageCheck=false;
-    }else {
+    } else {
         classMe='other-message'
     }
 
