@@ -380,8 +380,6 @@ connection.onFileEnd = function (file) {
 
     }
 
-    $('#progress-bar' + count).hide(100);
-
 
     $('<div />', { class:'my-message' , id:'my-message-' + count})
         .append($('<b>' + 'moi'+ '</b>'))
@@ -395,6 +393,8 @@ connection.onFileEnd = function (file) {
     setTimeout(() => {
         $('#div-messenger').animate({scrollTop: $('#div-messenger').get(0).scrollHeight}, 400);
     }, 100);
+
+    $('.progress-bar').hide(100);
 
 }
 
