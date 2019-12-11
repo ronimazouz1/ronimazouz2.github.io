@@ -286,7 +286,6 @@ $('#sendMessage').on('click',function (e) {
     mymessageCheck=true;
     document.getElementById('text-message').value='';
     closeAttachment();
-    reconnect();
 });
 
 function closeAttachment() {
@@ -300,6 +299,7 @@ function closeAttachment() {
 
 $("#attach").change(function() {
     readURL(this);
+    muteVideo();
 });
 
 connection.filesContainer = document.getElementById('div-messenger');
@@ -585,42 +585,3 @@ function muteVideo(){
 //     connection.captureUserMedia();
 // };
 
-
-    function reconnect() {
-    const localVideo = document.getElementById('#localVideo');
-    const remoteVideo = document.getElementById('#remoteVideo');
-    // var existing = document.getElementById(event.streamid);
-    // if(existing && existing.parentNode) {
-    //     existing.parentNode.removeChild(existing);
-    // }
-
-    localVideo.removeAttribute('src');
-    remoteVideo.removeAttribute('src');
-
-    localVideo.removeAttribute('srcObject');
-    remoteVideo.removeAttribute('srcObject');
-
-
-    try {
-        localVideo.setAttributeNode(document.createAttribute('autoplay'));
-        remoteVideo.setAttributeNode(document.createAttribute('autoplay'));
-
-        localVideo.setAttributeNode(document.createAttribute('playsinline'));
-        remoteVideo.setAttributeNode(document.createAttribute('playsinline'));
-    } catch (e) {
-        // video.setAttribute('autoplay', true);
-        // video.setAttribute('playsinline', true);
-    }
-
-    // if(event.type === 'local') {
-    //     video.volume = 0;
-    //     try {
-    //         video.setAttributeNode(document.createAttribute('muted'));
-    //     } catch (e) {
-    //         video.setAttribute('muted', true);
-    //     }
-    // }
-
-    localVideo.srcObject = event.stream;
-    remoteVideo.srcObject = event.stream;
-}
