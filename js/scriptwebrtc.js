@@ -1,5 +1,6 @@
 var connection = new RTCMultiConnection();
-
+var startTime;
+var endTime;
 // by default, socket.io server is assumed to be deployed on your own URL
 connection.socketURL = '/';
 connection.enableFileSharing = true; // by default, it is "false".
@@ -35,7 +36,6 @@ connection.iceServers = [{
     ]
 }];
 
-connection.videosContainer = document.getElementById('videos-container');
 connection.onstream = function(event) {
     var existing = document.getElementById(event.streamid);
     if(existing && existing.parentNode) {
@@ -50,6 +50,12 @@ connection.onstream = function(event) {
         var video = document.getElementById('localVideo');
     } else {
         var video = document.getElementById('remoteVideo');
+    //    startTime=Date();
+    //    console.log('Start Time');
+    //    console.log(startTime);
+       $('#pleaseWait').hide();
+       $('.div-video-buttons').show();
+       $('#div-call-button').show();
     }
     try {
         video.setAttributeNode(document.createAttribute('autoplay'));
@@ -115,6 +121,9 @@ connection.onstreamended = function(event) {
     if (mediaElement) {
         mediaElement.parentNode.removeChild(mediaElement);
     }
+    endTime=new Date();
+    console.log('End Time');
+    console.log(endTime);
 };
 
 connection.onMediaError = function(e) {
@@ -238,10 +247,22 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
-            $('#attachmentPreview').css({backgroundImage: "url('" + e.target.result + "')"});
-            $('#attachmentPreview').show(650);
             // connection.send(input.files[0]);
+
         myfile=input.files[0];
+        console.log(myfile);
+        if (hasExtension(myfile.name,['.jpg', '.gif', '.png','.jpeg'])){
+            $('#attachmentPreview').append('<img id="imageToSend" src="'+e.target.result+'" style="width: 75px;max-height: 100px;display: block;border-radius: 10px">')
+            $('#attachmentPreview').show(350);
+            $('#icon-close').css({position: 'fixed', 'margin-left':'50px'});
+            $('#attachmentPreview').css('display', 'inline-block');
+
+
+        }else {
+            $('#attachmentPreview').append('<label style="font-weight: 200; margin: 5px; font-size: 1em">'+myfile.name+'</label>');
+            $('#attachmentPreview').css({backgroundColor:'rgb(57, 59, 61)','color':'white'});
+            $('#attachmentPreview').show(350);
+        }
         }
         reader.readAsDataURL(input.files[0]);
     fileCheck=true;
@@ -249,23 +270,36 @@ function readURL(input) {
 }
 
 var mymessageCheck=false;
+var localVideo = document.getElementById('#localVideo');
 
 $('#sendMessage').on('click',function (e) {
     var message=document.getElementById('text-message').value;
     if (fileCheck==true){
         connection.send(myfile);
     } else {
+        connection.send(message);
         appendDIV(message)
     }
     fileCheck=false;
-    $('#attachmentPreview').hide(350);
-    $('#attach').val('');
     mymessageCheck=true;
     document.getElementById('text-message').value='';
+    closeAttachment();
+
+    // const constraints = {
+    //     video: true
+    //   };
+    // const video = document.querySelector('#localVideo');
+      
+    // navigator.mediaDevices.getUserMedia(constraints).
+    //     then((stream) => {video.srcObject = stream});
 });
 
 function closeAttachment() {
     $('#attachmentPreview').hide(350);
+    $('#attachmentPreview').children("label").remove();
+    $('#imageToSend').remove();
+    $('#attachmentPreview').css({backgroundColor:'transparent'});
+    $('#icon-close').css({position: 'inherit', 'margin-left':'0px'});
     $('#attach').val('');
 }
 
@@ -366,10 +400,10 @@ connection.onFileStart = function (file) {
 connection.onFileEnd = function (file) {
     var message='';
     if (hasExtension(file.name,['.jpg', '.gif', '.png','.jpeg'])) {
-        message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name +'<img src="'+file.url+'" style="width: 75px;display: block; margin: 5px; float: right; border-radius: 10px">'+ '</a>';
+        message = '<a style="font-size: 1em;color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name +'<img src="'+file.url+'" style="width: 75px;max-height: 100px;display: block; margin: 5px; float: right; border-radius: 10px">'+ '</a>';
 
     } else {
-        message = '<a style="color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
+        message = '<a style="font-size: 1em;color:white;" href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
 
     }
     var classMe='';
@@ -406,23 +440,52 @@ currentUserName.onkeyup = currentUserName.onpaste = currentUserName.oninput = fu
     localStorage.setItem(this.id, this.value);
 };
 currentUserName.value = localStorage.getItem(currentUserName.id) || connection.token();
-document.getElementById('setup-my-username').onclick = function() {
-    this.disabled = true;
+// document.getElementById('setup-my-username').onclick = function() {
+//     this.disabled = true;
+//     connection.open(currentUserName.value, function(isRoomOpened, roomid, error) {
+//         if(error) {
+//             alert(error);
+//         }
+//         joinCalleeUsingHisUsername.disabled = false;
+//     });
+// };
+
+function openConnection() {
     connection.open(currentUserName.value, function(isRoomOpened, roomid, error) {
         if(error) {
             alert(error);
         }
         joinCalleeUsingHisUsername.disabled = false;
     });
-};
+}
+
 var calleeUserName=document.getElementById('otheruserid');
 var joinCalleeUsingHisUsername = document.getElementById('join-callee-using-his-username');
-joinCalleeUsingHisUsername.onclick = function() {
+// joinCalleeUsingHisUsername.onclick = function() {
+//     this.disabled = true;
+//     connection.checkPresence(calleeUserName.value, function(isOnline, username) {
+//         if(!isOnline) {
+//             joinCalleeUsingHisUsername.disabled = false;
+//             alert(username + ' is not online.');
+//             return;
+//         }
+//         connection.join(username, function(isRoomJoined, roomid, error) {
+//             if(error) {
+//                 alert(error);
+//             }
+//         });
+//     });
+//     setTimeout(function() {
+//         joinCalleeUsingHisUsername.disabled = false;
+//     }, 1000);}
+
+function call() {
     this.disabled = true;
     connection.checkPresence(calleeUserName.value, function(isOnline, username) {
         if(!isOnline) {
             joinCalleeUsingHisUsername.disabled = false;
-            alert(username + ' is not online.');
+            // alert(username + ' is not online.');
+                call();
             return;
         }
         connection.join(username, function(isRoomJoined, roomid, error) {
@@ -433,5 +496,90 @@ joinCalleeUsingHisUsername.onclick = function() {
     });
     setTimeout(function() {
         joinCalleeUsingHisUsername.disabled = false;
-    }, 1000);
-};
+    }, 1000);}
+
+
+
+
+var audioMuteCheck=false;
+function muteAudio(){
+    console.log(connection.streamEvents);
+    if (!audioMuteCheck) {
+        connection.attachStreams[0].mute({
+            audio: true,
+            type: 'local'
+        });
+        audioMuteCheck=true;
+    }else {
+        connection.attachStreams[0].unmute({
+            audio: true,
+            type: 'local'
+        });
+        audioMuteCheck=false;
+    }
+}
+
+var videoMuteCheck=false;
+function muteVideo(){
+    console.log(connection.streamEvents);
+    if (!videoMuteCheck) {
+        connection.attachStreams[0].mute({
+            video: true,
+            type: 'local'
+        });
+        videoMuteCheck=true;
+    }else {
+        connection.attachStreams[0].unmute({
+            video: true,
+            type: 'local'
+        });
+        videoMuteCheck=false;
+    }
+}
+
+// var videoDevices = document.getElementById('video-devices');
+// connection.DetectRTC.load(function() {
+//     connection.DetectRTC.MediaDevices.forEach(function(device) {
+//         if(document.getElementById(device.id)) {
+//             return;
+//         }
+
+
+//         if(device.kind.indexOf('video') !== -1) {
+//             var option = document.createElement('option');
+//             option.id = device.id;
+//             option.innerHTML = device.label || device.id;
+//             option.value = device.id;
+//             videoDevices.appendChild(option);
+
+//             if(connection.mediaConstraints.video.optional.length && connection.mediaConstraints.video.optional[0].sourceId === device.id) {
+//                 option.selected = true;
+//             }
+//         }
+//     });
+// });
+// videoDevices.onchange=function(e){
+//     var videoSourceId = videoDevices.value;
+//     if(connection.mediaConstraints.video.optional.length && connection.attachStreams.length) {
+//         if(connection.mediaConstraints.video.optional[0].sourceId === videoSourceId) {
+//             alert('Selected video device is already selected.');
+//             return;
+//         }
+//     }
+
+//     connection.attachStreams.forEach(function(stream) {
+//         stream.getVideoTracks().forEach(function(track) {
+//             stream.removeTrack(track);
+
+//             if(track.stop) {
+//                 track.stop();
+//             }
+//         });
+//     });
+
+//     connection.mediaConstraints.video.optional = [{
+//         sourceId: videoSourceId
+//     }];
+
+//     connection.captureUserMedia();
+// };

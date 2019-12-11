@@ -1,88 +1,139 @@
-<html>
-  <head>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <style>
-      #userid{
-        border-radius: 10px;
-        border: 1px solid green;
-        padding: 10px 10px;
-        color: black;
-        margin: 10px;
-      }
-      .myuserid-btn{
-        border-radius: 10px;
-        border: 1px solid green;
-        padding: 10px 10px;
-        color: black;
-        color: white;
-        margin: 10px;
-        background: linear-gradient( #ee123e, #cc1536, #641725, #d51e4d);
-      }
-      #otheruserid{
-        border-radius: 10px;
-        border: 1px solid green;
-        padding: 10px 10px;
-        color: black;
-        margin: 10px;
-      }
-    </style>
-  </head>
-  <body onload="start();">
-  <input type="hidden" value="waqar" id="room-id">
-  <input type="hidden" value="waqarulzafar" id="connection-id">
-    <div id="div-video-big" style="text-align: center;">
-      <video id="remoteVideo" style="width: 100%; height:100%" playsinline autoplay></video>
-      <div id="video-call-bottom" style="padding-bottom: 10px">
-          <div id="div-video-small">
-              <video id="localVideo" style="width: 100%"playsinline autoplay></video>
-            </div>
+<head>
+  <style>
+    #userid{
+      border-radius: 10px;
+      border: 1px solid green;
+      padding: 10px 10px;
+      color: black;
+      margin: 10px;
+    }
+    .myuserid-btn{
+      border-radius: 10px;
+      border: 1px solid green;
+      padding: 10px 10px;
+      color: black;
+      color: white;
+      margin: 10px;
+      background: linear-gradient( #ee123e, #cc1536, #641725, #d51e4d);
+    }
+    #otheruserid{
+      border-radius: 10px;
+      border: 1px solid green;
+      padding: 10px 10px;
+      color: black;
+      margin: 10px;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+}
+  </style>
+</head>
+
+
+
+<body>
+
+    <input type="hidden" value="waqar" id="room-id">
+    <input type="hidden" value="waqarulzafar" id="connection-id">
+
+
+  <div id="div-video-big" style="text-align: center;border: none;">
+      <h1 id="pleaseWait">Veuillez patienter, votre professeur est en cours de connexion</h1>
+      <!-- <img src="img/call_page/ezgif.com-crop.gif'" style="height: 100%;width: inherit;"> -->
+      <video id="remoteVideo" autoplay playsinline style="width: 100%; height: 100%"></video>
+      <div id="video-call-bottom">
+        <div id="div-call-button">
+          <a class="btn btn-primary" role="button" href="{% url 'session_thank_you'" id="bouton-call" style="line-height: 65px;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.5, #e53935), color-stop(1, #e35d5b));">
+            <img src="img/call_page/phone.png'" style="width: 70%;">
+          </a>
+        </div>
+        <div id="div-video-small">
+          <!-- <img src="img/call_page/student_struggles.jpg'" -->
+          <video id="localVideo" autoplay playsinline style="width: 100%"></video>
+        </div>
       </div>
     </div>
-
-
+    <div class="div-video-buttons">
+        <button class="video-buttons" type="button" id="bouton-video-expand" style="outline: none" onclick="fullscreen(); changeimg2()">
+          <img src="img/call_page/maximize-black.png'" class="icon-bouton-video" id="expand">
+        </button>
+        <span id="span-alert">Il vous reste {{left_mins}} sur votre forfait</span></div>
+      <div class="div-video-buttons">
+        <button class="video-buttons" type="button" id="bouton-flip-cam" style="outline: none" onclick="muteVideo()">
+          <img src="img/call_page/flip-camera-black.png'" class="icon-bouton-video">
+        </button>
+      </div>
+      <div class="div-video-buttons">
+        <button class="video-buttons" type="button" id="bouton-record" style="outline: none" onclick="changeimg()">
+          <img src="img/call_page/camcorder-black.png'" id="icon-record" class="icon-bouton-video">
+        </button>
+      </div>
+      <div class="div-video-buttons">
+        <button class="video-buttons" type="button" style="outline: none" onclick="muteVideo()" id="bouton-cam-cut">
+          <img src="img/call_page/cam-on-black.png'" id="cam-cut" class="icon-bouton-video">
+        </button>
+      </div>
+      <div class="div-video-buttons">
+        <button class="video-buttons" type="button" style="outline: none" onclick="changeimg4(); muteAudio()" id="bouton-mic-cut">
+          <img src="img/call_page/mic-on-black.png'" id="mic-cut" class="icon-bouton-video">
+        </button>
+      </div>
+    
+    
     <div id="div-messenger"></div>
     
     <div class="messenger-bottom">
     
-      <input id="attach" type="file" style="display: none">
-      <label id="label-attach" class="btn-select-file" for="attach">
-          <img src="img/camera.png" style="width: 10%;" />
-      </label>
+      <input id="attach" type="file" style="display: none"/>
+      <label id="label-attach" for="attach"><icon id="icon-attach" class="fa fa-camera" style="color: #4A90E2;font-size: 18px;"></icon></label>
       <div class="message-box">
         <div id ="attachmentPreview">
-          <img src="img/icon-close.png" id="icon-close" onclick="closeAttachment()" />
+          <img src="img/call_page/icon-close.png'" id="icon-close" onclick="closeAttachment()" />
         </div>
         <textarea id="text-message" type="text" rows='1' class="message-input" placeholder="Votre message..."></textarea>
       </div>
         <button id="sendMessage" type="submit" class="message-submit">
-          <img src="img/send.png" style="width: 100%;" />
+          <i class="fa fa-send" style="color: #4A90E2;font-size: 24px;"></i>
         </button>
       </div>
-  <div class="myuserid">
-    <input type="text" id="userid" placeholder="Enter Your ID Here...">
-    <button type="button" id="setup-my-username" class="myuserid-btn">Open</button>
-  </div>
-  <div class="myuserid">
-    <input type="text" id="otheruserid" placeholder="Enter Other User ID...">
-    <button type="button" id="join-callee-using-his-username" class="myuserid-btn ">Join</button>
-  </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
-    <!-- <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script> -->
+        <div class="myuserid" style="display: none">
+        <input type="text" id="userid" placeholder="Enter Your ID Here...">
+        <button type="button" id="setup-my-username" class="myuserid-btn">Open</button>
+      </div>
+      <div class="myuserid" style="display: none">
+        <input type="text" id="otheruserid" placeholder="Enter Other User ID...">
+        <button type="button" id="join-callee-using-his-username" class="myuserid-btn ">Join</button>
+      </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="js/full-screen.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-    <script src="js/FileBufferReader.js"></script>
-    <script src="js/fileSelector.js"></script>
-    <script src="js/RTCMultiConnection.js"></script>
+    <script src="js/FileBufferReader.js'"></script>
+    <script src="js/FileSelector.js'"></script>
+    <script src="js/RTCMultiConnection.js'"></script>
 
-    <script src="js/scriptwebrtc.js" ></script>
+    <script src="js/scriptwebrtc.js'"></script>
 
-    <script>
-        $('#userid').val('eleve');
-        $('#otheruserid').val('prof');
+
+
+    <script defer>
+      $( document ).ready(function() {
+      $('#userid').val('eleve');
+      $('#otheruserid').val('prof');
+      });
+
+    </script>
+    <script defer>
+      setTimeout(function(){ 
+      call();
+    }, 200);
     </script>
 
+
+
   </body>
-</html>
