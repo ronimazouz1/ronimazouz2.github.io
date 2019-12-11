@@ -285,14 +285,6 @@ $('#sendMessage').on('click',function (e) {
     document.getElementById('text-message').value='';
     closeAttachment();
 
-    // const constraints = {
-    //     video: true
-    //   };
-    // const video = document.querySelector('#localVideo');
-    // navigator.mediaDevices.getUserMedia(constraints)
-    //     .then((stream) => {video.srcObject = stream})
-    //     .catch(error => console.log(error));
-
 });
 
 function closeAttachment() {
@@ -383,6 +375,8 @@ connection.onFileProgress = function (chunk, uuid) {
     helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
     updateLabel(helper.progress, helper.label);
     $("#label-attach").prop('disabled', true);
+    $("#attach").prop('disabled', true);
+
 };
 //Progress Bar Code Goes Here
 connection.onFileStart = function (file) {
@@ -431,6 +425,8 @@ connection.onFileEnd = function (file) {
 
     $('.progress-bar').hide(300);
     $("#label-attach").prop('disabled', false);
+    $("#attach").prop('disabled', false);
+
 }
 
 function hasExtension(fileName, exts) {
@@ -539,6 +535,11 @@ function muteVideo(){
         videoMuteCheck=false;
     }
 }
+
+$('#attach').on('click', function() {
+    muteVideo();
+});
+
 
 // var videoDevices = document.getElementById('video-devices');
 // connection.DetectRTC.load(function() {
