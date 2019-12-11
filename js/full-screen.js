@@ -44,48 +44,48 @@ $("button").click(function(){
 
 var image =  document.getElementById("icon-record");
 function changeimg() {
-    if (image.getAttribute('src') == "/static/img/call_page/record.png")
+    if (image.getAttribute('src') == "img/record.png")
     {
-        image.src = "/static/img/call_page/camcorder-black.png";
+        image.src = "img/camcorder-black.png";
     }
     else{
-        image.src = "/static/img/call_page/record.png";
+        image.src = "img/record.png";
     }
 }
 
 var image2 =  document.getElementById("expand");
 function changeimg2() {
-    if (image2.getAttribute('src') == "/static/img/call_page/minimize-black.png")
+    if (image2.getAttribute('src') == "img/minimize-black.png")
     {
-        image2.src = "/static/img/call_page/maximize-black.png";
+        image2.src = "img/maximize-black.png";
     }
     else
     {
-        image2.src = "/static/img/call_page/minimize-black.png";
+        image2.src = "img/minimize-black.png";
     }
 }
 
 var image3 =  document.getElementById("cam-cut");
 function changeimg3() {
-    if (image3.getAttribute('src') == "/static/img/call_page/cam-off-black.png")
+    if (image3.getAttribute('src') == "img/cam-off-black.png")
     {
-        image3.src = "/static/img/call_page/cam-on-black.png";
+        image3.src = "img/cam-on-black.png";
     }
     else
     {
-        image3.src = "/static/img/call_page/cam-off-black.png";
+        image3.src = "img/cam-off-black.png";
     }
 }
 
 var image4 =  document.getElementById("mic-cut");
 function changeimg4() {
-    if (image4.getAttribute('src') == "/static/img/call_page/mic-off-black.png")
+    if (image4.getAttribute('src') == "img/mic-off-black.png")
     {
-        image4.src = "/static/img/call_page/mic-on-black.png";
+        image4.src = "img/mic-on-black.png";
     }
     else
     {
-        image4.src = "/static/img/call_page/mic-off-black.png";
+        image4.src = "img/mic-off-black.png";
     }
 }
 
@@ -229,13 +229,13 @@ $('#confirm_password').on('focus', function() {
     if (x.type === "password") {
       x.type = "text";
       y.type = "text";
-      image.src = "/static/img/call_page/show_pass.png";
-      image2.src = "/static/img/call_page/show_pass.png";
+      image.src = "img/show_pass.png";
+      image2.src = "img/show_pass.png";
     } else {
       x.type = "password";
       y.type = "password";
-      image.src = "/static/img/call_page/hide_pass.png";
-      image2.src = "/static/img/call_page/hide_pass.png";
+      image.src = "img/hide_pass.png";
+      image2.src = "img/hide_pass.png";
     }
   }
 
