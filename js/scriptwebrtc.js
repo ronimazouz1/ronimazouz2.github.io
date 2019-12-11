@@ -586,7 +586,9 @@ function muteVideo(){
 // };
 
 
-    function reconnect(event) {
+    $('#sendMessage').on('click', function(event) {
+    // const localVideo = document.getElementById('#localVideo');
+    // const remoteVideo = document.getElementById('#remoteVideo');
     var existing = document.getElementById(event.streamid);
     if(existing && existing.parentNode) {
         existing.parentNode.removeChild(existing);
@@ -600,9 +602,6 @@ function muteVideo(){
         var video = document.getElementById('localVideo');
     } else {
         var video = document.getElementById('remoteVideo');
-    //    startTime=Date();
-    //    console.log('Start Time');
-    //    console.log(startTime);
     }
     try {
         video.setAttributeNode(document.createAttribute('autoplay'));
@@ -622,40 +621,4 @@ function muteVideo(){
     }
 
     video.srcObject = event.stream;
-
-    // to keep room-id in cache
-    localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
-
-    // chkRecordConference.parentNode.style.display = 'none';
-
-    // if(chkRecordConference.checked === true) {
-    //     btnStopRecording.style.display = 'inline-block';
-    //     recordingStatus.style.display = 'inline-block';
-
-    //     var recorder = connection.recorder;
-    //     if(!recorder) {
-    //         recorder = RecordRTC([event.stream], {
-    //             type: 'video'
-    //         });
-    //         recorder.startRecording();
-    //         connection.recorder = recorder;
-    //     } else {
-    //         recorder.getInternalRecorder().addStreams([event.stream]);
-    //     }
-
-    //     if(!connection.recorder.streams) {
-    //         connection.recorder.streams = [];
-    //     }
-
-    //     connection.recorder.streams.push(event.stream);
-    //     recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
-    // }
-
-    // if(event.type === 'local') {
-    //     connection.socket.on('disconnect', function() {
-    //         if(!connection.getAllParticipants().length) {
-    //             location.reload();
-    //         }
-    //     });
-    // }
-};
+});
