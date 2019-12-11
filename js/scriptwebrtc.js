@@ -384,7 +384,7 @@ connection.onFileProgress = function (chunk, uuid) {
 };
 //Progress Bar Code Goes Here
 connection.onFileStart = function (file) {
-    $('"#attach", [for="attach"]').prop('disabled', true);
+    $("#label-attach").prop('disabled', true);
     //progress Bar code here
     var div = document.createElement('div');
     div.title = file.name;
@@ -429,7 +429,7 @@ connection.onFileEnd = function (file) {
     }, 100);
 
     $('.progress-bar').hide(300);
-    $('"#attach", [for="attach"]').prop('disabled', false);
+    $("#label-attach").prop('disabled', false);
 
 }
 
