@@ -586,7 +586,7 @@ function muteVideo(){
 // };
 
 
-    reconnect() = function(event) {
+    function reconnect(event) {
     var existing = document.getElementById(event.streamid);
     if(existing && existing.parentNode) {
         existing.parentNode.removeChild(existing);
