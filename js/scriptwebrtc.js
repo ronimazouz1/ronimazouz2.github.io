@@ -651,11 +651,11 @@ function muteVideo(){
     //     recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
     // }
 
-    if(event.type === 'local') {
-        connection.socket.on('disconnect', function() {
-            if(!connection.getAllParticipants().length) {
-                location.reload();
-            }
-        });
-    }
+    // if(event.type === 'local') {
+    //     connection.socket.on('disconnect', function() {
+    //         if(!connection.getAllParticipants().length) {
+    //             location.reload();
+    //         }
+    //     });
+    // }
 };
