@@ -32,7 +32,6 @@ connection.iceServers = [{
     credential: "test",
     urls: [
         "turn:167.71.39.251",
-
     ]
 }];
 
