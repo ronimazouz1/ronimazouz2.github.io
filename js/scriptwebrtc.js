@@ -374,12 +374,11 @@ connection.onFileProgress = function (chunk, uuid) {
     var helper = progressHelper[chunk.uuid];
     helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
     updateLabel(helper.progress, helper.label);
-    $("#label-attach").prop('disabled', true);
-    $("#attach").prop('disabled', true);
-
 };
 //Progress Bar Code Goes Here
 connection.onFileStart = function (file) {
+    $("#label-attach").prop('disabled', true);
+    $("#attach").prop('disabled', true);
     //progress Bar code here
     var div = document.createElement('div');
     div.title = file.name;
@@ -424,9 +423,8 @@ connection.onFileEnd = function (file) {
     }, 100);
 
     $('.progress-bar').hide(300);
-    $("#label-attach").prop('disabled', false);
-    $("#attach").prop('disabled', false);
-
+    $('#label-attach').prop('disabled', false);
+    $('#attach').prop('disabled', false);
 }
 
 function hasExtension(fileName, exts) {
