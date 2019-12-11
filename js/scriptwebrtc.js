@@ -588,10 +588,10 @@ function muteVideo(){
     $('#sendMessage').on('click', function(event) {
     // const localVideo = document.getElementById('#localVideo');
     // const remoteVideo = document.getElementById('#remoteVideo');
-    var existing = document.getElementById(event.streamid);
-    if(existing && existing.parentNode) {
-        existing.parentNode.removeChild(existing);
-    }
+    // var existing = document.getElementById(event.streamid);
+    // if(existing && existing.parentNode) {
+    //     existing.parentNode.removeChild(existing);
+    // }
 
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
