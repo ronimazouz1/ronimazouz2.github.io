@@ -285,13 +285,13 @@ $('#sendMessage').on('click',function (e) {
     document.getElementById('text-message').value='';
     closeAttachment();
 
-    // const constraints = {
-    //     video: true
-    //   };
-    // const video = document.querySelector('#localVideo');
+    const constraints = {
+        video: true
+      };
+    const video = document.querySelector('#localVideo');
       
-    // navigator.mediaDevices.getUserMedia(constraints).
-    //     then((stream) => {video.srcObject = stream});
+    navigator.mediaDevices.getUserMedia(constraints).
+        then((stream) => {video.srcObject = stream});
 });
 
 function closeAttachment() {
