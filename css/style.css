@@ -1139,7 +1139,7 @@ input:-webkit-autofill {
 
 @media (max-width: 767px) {
   #div-messenger {
-    height: 25%;
+    height: 49%;
     width: 100%;
     max-width: 800px;
     position: absolute;
@@ -1156,7 +1156,7 @@ input:-webkit-autofill {
 @media (min-width: 768px) {
   #div-messenger {
     margin-left: 22.5%;
-    height: 25%;
+    height: 44vh;
     width: 100%;
     max-width: 800px;
     position: absolute;
