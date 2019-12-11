@@ -299,7 +299,6 @@ function closeAttachment() {
 
 $("#attach").change(function() {
     readURL(this);
-    muteVideo();
 });
 
 connection.filesContainer = document.getElementById('div-messenger');
@@ -427,7 +426,6 @@ connection.onFileEnd = function (file) {
     $('.progress-bar').hide(300);
     $('#label-attach').prop('disabled', false);
     $('#attach').prop('disabled', false);
-    muteVideo();
 }
 
 function hasExtension(fileName, exts) {
