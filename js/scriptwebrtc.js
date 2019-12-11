@@ -42,6 +42,10 @@ connection.onstream = function(event) {
         existing.parentNode.removeChild(existing);
     }
 
+    $('#pleaseWait').hide();
+    $('.div-video-buttons').show();
+    $('#div-call-button').show();
+
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
     event.mediaElement.muted = true;
@@ -53,9 +57,6 @@ connection.onstream = function(event) {
     //    startTime=Date();
     //    console.log('Start Time');
     //    console.log(startTime);
-       $('#pleaseWait').hide();
-       $('.div-video-buttons').show();
-       $('#div-call-button').show();
     }
     try {
         video.setAttributeNode(document.createAttribute('autoplay'));
