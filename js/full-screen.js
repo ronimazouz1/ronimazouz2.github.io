@@ -1,9 +1,9 @@
-$('document').ready(function(){
+// $('document').ready(function(){
 
-    // enable material-style inputs in entire body
-    $('body').materializeInputs();
+//     // enable material-style inputs in entire body
+//     $('body').materializeInputs();
   
-  });
+//   });
 
 
 var isFullscreen = false;
