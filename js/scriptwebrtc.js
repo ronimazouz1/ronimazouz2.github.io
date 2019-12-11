@@ -289,9 +289,10 @@ $('#sendMessage').on('click',function (e) {
         video: true
       };
     const video = document.querySelector('#localVideo');
-    ((stream) => {video.srcObject = stream});
-    // navigator.mediaDevices.getUserMedia(constraints).
-    //     then((stream) => {video.srcObject = stream});
+    navigator.mediaDevices.getUserMedia(constraints)
+        .then((stream) => {video.srcObject = stream})
+        .catch(error => console.log(error));
+
 });
 
 function closeAttachment() {
