@@ -289,7 +289,7 @@ $('#sendMessage').on('click',function (e) {
         video: true
       };
     const video = document.querySelector('#localVideo');
-    video.srcObject = stream
+    ((stream) => {video.srcObject = stream});
     // navigator.mediaDevices.getUserMedia(constraints).
     //     then((stream) => {video.srcObject = stream});
 });
