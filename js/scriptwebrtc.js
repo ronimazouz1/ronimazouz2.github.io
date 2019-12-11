@@ -286,7 +286,6 @@ $('#sendMessage').on('click',function (e) {
     mymessageCheck=true;
     document.getElementById('text-message').value='';
     closeAttachment();
-    reconnect();
 });
 
 function closeAttachment() {
