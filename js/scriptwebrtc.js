@@ -42,10 +42,6 @@ connection.onstream = function(event) {
         existing.parentNode.removeChild(existing);
     }
 
-    $('#pleaseWait').hide();
-    $('.div-video-buttons').show();
-    $('#div-call-button').show();
-
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
     event.mediaElement.muted = true;
@@ -74,7 +70,12 @@ connection.onstream = function(event) {
             video.setAttribute('muted', true);
         }
     }
+
     video.srcObject = event.stream;
+
+    $('#pleaseWait').hide();
+    $('.div-video-buttons').show();
+    $('#div-call-button').show();
 
 
 
