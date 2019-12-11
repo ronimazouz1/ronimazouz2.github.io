@@ -536,9 +536,6 @@ function muteVideo(){
     }
 }
 
-$('#attach').on('click', function() {
-    muteVideo();
-});
 
 
 // var videoDevices = document.getElementById('video-devices');
