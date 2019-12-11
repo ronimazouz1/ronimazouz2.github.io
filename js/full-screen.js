@@ -67,7 +67,7 @@ function changeimg2() {
 
 var image3 =  document.getElementById("cam-cut");
 function changeimg3() {
-    if (image3.getAttribute('src') == "img/cam-off-black.png)
+    if (image3.getAttribute('src') == "img/cam-off-black.png")
     {
         image3.src = "img/cam-on-black.png";
     }
