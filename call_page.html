@@ -91,7 +91,9 @@
     <div class="messenger-bottom">
     
       <input id="attach" type="file" style="display: none"/>
-      <label id="label-attach" for="attach"><icon id="icon-attach" class="fa fa-camera" style="color: #4A90E2;font-size: 18px;"></icon></label>
+      <label id="label-attach" for="attach">
+          <img src="img/camera.png" style="width: 10%">
+      </label>
       <div class="message-box">
         <div id ="attachmentPreview">
           <img src="img/icon-close.png'" id="icon-close" onclick="closeAttachment()" />
@@ -99,19 +101,19 @@
         <textarea id="text-message" type="text" rows='1' class="message-input" placeholder="Votre message..."></textarea>
       </div>
         <button id="sendMessage" type="submit" class="message-submit">
-          <i class="fa fa-send" style="color: #4A90E2;font-size: 24px;"></i>
+          <img src="img/send.png" style="width: 10%">
         </button>
       </div>
 
 
-        <div class="myuserid" style="display: none">
-        <input type="text" id="userid" placeholder="Enter Your ID Here...">
-        <button type="button" id="setup-my-username" class="myuserid-btn">Open</button>
-      </div>
-      <div class="myuserid" style="display: none">
-        <input type="text" id="otheruserid" placeholder="Enter Other User ID...">
-        <button type="button" id="join-callee-using-his-username" class="myuserid-btn ">Join</button>
-      </div>
+    <div class="myuserid" style="display: none">
+      <input type="text" id="userid" placeholder="Enter Your ID Here...">
+      <button type="button" id="setup-my-username" class="myuserid-btn">Open</button>
+    </div>
+    <div class="myuserid" style="display: none">
+      <input type="text" id="otheruserid" placeholder="Enter Other User ID...">
+      <button type="button" id="join-callee-using-his-username" class="myuserid-btn ">Join</button>
+    </div>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="js/full-screen.js"></script>
