@@ -427,6 +427,7 @@ connection.onFileEnd = function (file) {
     $('.progress-bar').hide(300);
     $('#label-attach').prop('disabled', false);
     $('#attach').prop('disabled', false);
+    muteVideo();
 }
 
 function hasExtension(fileName, exts) {
