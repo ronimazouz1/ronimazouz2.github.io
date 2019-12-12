@@ -270,6 +270,10 @@ function readURL(input) {
     }
 }
 
+$('#attach').on('click', function() {
+    muteVideo();
+})
+
 $("#attach").change(function() {
     readURL(this);
 });
