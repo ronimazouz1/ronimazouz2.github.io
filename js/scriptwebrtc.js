@@ -42,10 +42,10 @@ connection.onstream = function(event) {
     //     existing.parentNode.removeChild(existing);
     // }
 
-    event.mediaElement.removeAttribute('src');
-    event.mediaElement.removeAttribute('srcObject');
-    event.mediaElement.muted = true;
-    event.mediaElement.volume = 0;
+    // event.mediaElement.removeAttribute('src');
+    // event.mediaElement.removeAttribute('srcObject');
+    // event.mediaElement.muted = true;
+    // event.mediaElement.volume = 0;
     if(event.type === 'local') {
         var video = document.getElementById('localVideo');
     } else {
