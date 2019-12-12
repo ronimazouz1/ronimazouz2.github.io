@@ -36,11 +36,11 @@ connection.iceServers = [{
 }];
 
 connection.onstream = function(event) {
-    var existing = document.getElementById(event.streamid);
-    console.log('existing:', existing);
-    if(existing && existing.parentNode) {
-        existing.parentNode.removeChild(existing);
-    }
+    // var existing = document.getElementById(event.streamid);
+    // console.log('existing:', existing);
+    // if(existing && existing.parentNode) {
+    //     existing.parentNode.removeChild(existing);
+    // }
 
     event.mediaElement.removeAttribute('src');
     event.mediaElement.removeAttribute('srcObject');
@@ -107,13 +107,13 @@ connection.onstream = function(event) {
     //     recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
     // }
 
-    if(event.type === 'local') {
-        connection.socket.on('disconnect', function() {
-            if(!connection.getAllParticipants().length) {
-                location.reload();
-            }
-        });
-    }
+    // if(event.type === 'local') {
+    //     connection.socket.on('disconnect', function() {
+    //         if(!connection.getAllParticipants().length) {
+    //             location.reload();
+    //         }
+    //     });
+    // }
 };
 
 
