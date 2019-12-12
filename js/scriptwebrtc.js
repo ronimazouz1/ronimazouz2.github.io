@@ -37,6 +37,7 @@ connection.iceServers = [{
 
 connection.onstream = function(event) {
     var existing = document.getElementById(event.streamid);
+    console.log(existing);
     if(existing && existing.parentNode) {
         existing.parentNode.removeChild(existing);
     }
@@ -270,9 +271,6 @@ function readURL(input) {
     }
 }
 
-$('#attach').on('click', function() {
-    muteVideo();
-})
 
 $("#attach").change(function() {
     readURL(this);
