@@ -1,3 +1,4 @@
+
 var connection = new RTCMultiConnection();
 var startTime;
 var endTime;
@@ -35,8 +36,6 @@ connection.iceServers = [{
     ]
 }];
 
-
-
 connection.onstream = function(event) {
     // var existing = document.getElementById(event.streamid);
     // console.log('existing:', existing);
@@ -50,7 +49,6 @@ connection.onstream = function(event) {
     // event.mediaElement.volume = 0;
     if(event.type === 'local') {
         var video = document.getElementById('localVideo');
-
     } else {
         var video = document.getElementById('remoteVideo');
     //    startTime=Date();
@@ -504,7 +502,6 @@ function call() {
 
 
 
-
     // var audioMuteCheck=false;
     // function muteAudio(){
     //     console.log(connection.streamEvents);
@@ -541,6 +538,7 @@ function call() {
     //         videoMuteCheck=false;
     //     }
     // }
+
 
 
 
