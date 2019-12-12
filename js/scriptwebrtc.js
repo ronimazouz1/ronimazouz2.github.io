@@ -35,12 +35,7 @@ connection.iceServers = [{
     ]
 }];
 
-connection.mediaConstraints.audio = {
-    mandatory: {},
-    optional: [{
-        echoCancellation: true
-    }]
-};
+
 
 connection.onstream = function(event) {
     // var existing = document.getElementById(event.streamid);
@@ -55,7 +50,6 @@ connection.onstream = function(event) {
     // event.mediaElement.volume = 0;
     if(event.type === 'local') {
         var video = document.getElementById('localVideo');
-        video.muted = true;
 
     } else {
         var video = document.getElementById('remoteVideo');
@@ -511,42 +505,42 @@ function call() {
 
 
 
-    var audioMuteCheck=false;
-    function muteAudio(){
-        console.log(connection.streamEvents);
-        if (!audioMuteCheck) {
-            connection.mute({
-                audio: true,
-                type: 'local'
-            });
-            audioMuteCheck=true;
-        }else {
-            connection.unmute({
-                audio: true,
-                type: 'local'
-            });
-            audioMuteCheck=false;
-        }
-    }
+    // var audioMuteCheck=false;
+    // function muteAudio(){
+    //     console.log(connection.streamEvents);
+    //     if (!audioMuteCheck) {
+    //         connection.attachStreams[0].mute({
+    //             audio: true,
+    //             type: 'local'
+    //         });
+    //         audioMuteCheck=true;
+    //     }else {
+    //         connection.attachStreams[0].unmute({
+    //             audio: true,
+    //             type: 'local'
+    //         });
+    //         audioMuteCheck=false;
+    //     }
+    // }
     
     
-    var videoMuteCheck=false;
-    function muteVideo(){
-        console.log(connection.streamEvents);
-        if (!videoMuteCheck) {
-            connection.mute({
-                video: true,
-                type: 'local'
-            });
-            videoMuteCheck=true;
-        }else {
-            connection.unmute({
-                video: true,
-                type: 'local'
-            });
-            videoMuteCheck=false;
-        }
-    }
+    // var videoMuteCheck=false;
+    // function muteVideo(){
+    //     console.log(connection.streamEvents);
+    //     if (!videoMuteCheck) {
+    //         connection.attachStreams[0].mute({
+    //             video: true,
+    //             type: 'local'
+    //         });
+    //         videoMuteCheck=true;
+    //     }else {
+    //         connection.attachStreams[0].unmute({
+    //             video: true,
+    //             type: 'local'
+    //         });
+    //         videoMuteCheck=false;
+    //     }
+    // }
 
 
 
