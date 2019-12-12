@@ -502,51 +502,7 @@ function call() {
 
 
 
-// var audioMuteCheck=false;
-// function muteAudio(){
-//     console.log(connection.streamEvents);
-//     if (!audioMuteCheck) {
-//         connection.attachStreams[0].mute({
-//             audio: true,
-//             type: 'local'
-//         });
-//         audioMuteCheck=true;
-//     }else {
-//         connection.attachStreams[0].unmute({
-//             audio: true,
-//             type: 'local'
-//         });
-//         audioMuteCheck=false;
-//     }
-// }
 
-function muteAudio() {
-    localVideo = document.getElementById('#localVideo');
-    localVideo.getAudioTracks()[0].enabled = !(localVideo.getAudioTracks()[0].enabled);
-}
-
-function muteVideo() {
-    localVideo = document.getElementById('#localVideo');
-    localVideo.getVideoTracks()[0].enabled = !(localVideo.getVideoTracks()[0].enabled);
-}
-
-var videoMuteCheck=false;
-function muteVideo(){
-    console.log(connection.streamEvents);
-    if (!videoMuteCheck) {
-        connection.attachStreams[0].mute({
-            video: true,
-            type: 'local'
-        });
-        videoMuteCheck=true;
-    }else {
-        connection.attachStreams[0].unmute({
-            video: true,
-            type: 'local'
-        });
-        videoMuteCheck=false;
-    }
-}
 
 
 
