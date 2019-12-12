@@ -270,8 +270,12 @@ function readURL(input) {
     }
 }
 
+$("#attach").change(function() {
+    readURL(this);
+});
+
+
 var mymessageCheck=false;
-var localVideo = document.getElementById('#localVideo');
 
 $('#sendMessage').on('click',function (e) {
     var message=document.getElementById('text-message').value;
@@ -296,9 +300,6 @@ function closeAttachment() {
     $('#attach').val('');
 }
 
-$("#attach").change(function() {
-    readURL(this);
-});
 
 connection.filesContainer = document.getElementById('div-messenger');
 
@@ -342,7 +343,7 @@ function updateLabel(progress, label) {
 
 
 function appendDIV(event) {
-    console.log(event);
+console.log(event);
 console.log(event.data);
 console.log(event);
  if (event.data) {
@@ -370,6 +371,7 @@ console.log(event);
 
 
 }
+
 connection.onFileProgress = function (chunk, uuid) {
     var helper = progressHelper[chunk.uuid];
     helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
