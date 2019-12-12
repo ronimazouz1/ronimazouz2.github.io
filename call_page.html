@@ -1,7 +1,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
     /* #userid{
       border-radius: 10px;
@@ -30,26 +29,25 @@
     html, body {
       height: 100%;
       overflow: hidden;
-  }
+    }
   </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="js/RTCMultiConnection.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  <script src="js/FileBufferReader.js"></script>
+
   <link rel="stylesheet" href="css/style.css">
-
-
 </head>
 
-
-
 <body>
-
     <input type="hidden" value="waqar" id="room-id">
     <input type="hidden" value="waqarulzafar" id="connection-id">
 
-
   <div id="div-video-big" style="text-align: center;border: none;">
       <h1 id="pleaseWait">Veuillez patienter, votre professeur est en cours de connexion</h1>
-      <!-- <img src="img/ezgif.com-crop.gif'" style="height: 100%;width: inherit;"> -->
       <video id="remoteVideo" autoplay playsinline style="width: 100%; height: 100%"></video>
       <div id="video-call-bottom">
         <div id="div-call-button">
@@ -58,7 +56,6 @@
           </a>
         </div>
         <div id="div-video-small">
-          <!-- <img src="img/student_struggles.jpg'" -->
           <video id="localVideo" autoplay playsinline style="width: 100%"></video>
         </div>
       </div>
@@ -93,7 +90,6 @@
     <div id="div-messenger"></div>
     
     <div class="messenger-bottom">
-    
       <input id="attach" type="file" style="display: none"/>
       <label id="label-attach" for="attach">
           <img src="img/camera.png" style="width: 10%">
@@ -119,16 +115,7 @@
       <button type="button" id="join-callee-using-his-username" class="myuserid-btn ">Join</button>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-    <script src="https://rawgit.com/muaz-khan/RTCMultiConnection/master/dist/RTCMultiConnection.min.js"></script>
-    <script src="js/FileBufferReader.js"></script>
-
-    <!-- <script src="js/RTCMultiConnection.js"></script> -->
-    <!-- <script src="js/FileSelector.js"></script> -->
     <script src="js/full-screen.js"></script>
-
     <script src="js/scriptwebrtc.js"></script>
 
 
