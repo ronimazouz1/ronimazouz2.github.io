@@ -35,6 +35,13 @@ connection.iceServers = [{
     ]
 }];
 
+connection.mediaConstraints.audio = {
+    mandatory: {},
+    optional: [{
+        echoCancellation: true
+    }]
+};
+
 connection.onstream = function(event) {
     // var existing = document.getElementById(event.streamid);
     // console.log('existing:', existing);
