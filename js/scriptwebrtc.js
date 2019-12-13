@@ -1,6 +1,6 @@
-
 var connection = new RTCMultiConnection();
-
+var startTime;
+var endTime;
 // by default, socket.io server is assumed to be deployed on your own URL
 connection.socketURL = '/';
 connection.enableFileSharing = true; // by default, it is "false".
@@ -14,12 +14,12 @@ connection.maxParticipantsAllowed=2;
 connection.session = {
     audio: true,
     video: true,
-    data: true,
+    data: true
 };
 
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: true,
-    OfferToReceiveVideo: true,
+    OfferToReceiveVideo: true
 };
 
 // https://www.rtcmulticonnection.org/docs/iceServers/
@@ -36,21 +36,26 @@ connection.iceServers = [{
     ]
 }];
 
-// connection.videosContainer = document.getElementById('videos-container');
 connection.onstream = function(event) {
-    // var existing = document.getElementById(event.streamid);
-    // if(existing && existing.parentNode) {
-    //     existing.parentNode.removeChild(existing);
-    // }
+    var existing = document.getElementById(event.streamid);
+    if(existing && existing.parentNode) {
+        existing.parentNode.removeChild(existing);
+    }
 
-    // event.mediaElement.removeAttribute('src');
-    // event.mediaElement.removeAttribute('srcObject');
-    // event.mediaElement.muted = true;
-    // event.mediaElement.volume = 0;
+    event.mediaElement.removeAttribute('src');
+    event.mediaElement.removeAttribute('srcObject');
+    event.mediaElement.muted = true;
+    event.mediaElement.volume = 0;
     if(event.type === 'local') {
         var video = document.getElementById('localVideo');
     } else {
         var video = document.getElementById('remoteVideo');
+    //    startTime=Date();
+    //    console.log('Start Time');
+    //    console.log(startTime);
+       $('#pleaseWait').hide();
+       $('.div-video-buttons').show();
+       $('#div-call-button').show();
     }
     try {
         video.setAttributeNode(document.createAttribute('autoplay'));
@@ -69,9 +74,6 @@ connection.onstream = function(event) {
         }
     }
     video.srcObject = event.stream;
-    $('#pleaseWait').hide();
-    $('.div-video-buttons').show();
-    $('#div-call-button').show();
 
 
 
@@ -119,6 +121,9 @@ connection.onstreamended = function(event) {
     if (mediaElement) {
         mediaElement.parentNode.removeChild(mediaElement);
     }
+    endTime=new Date();
+    console.log('End Time');
+    console.log(endTime);
 };
 
 connection.onMediaError = function(e) {
@@ -264,13 +269,8 @@ function readURL(input) {
     }
 }
 
-
-$("#attach").change(function() {
-    readURL(this);
-});
-
-
 var mymessageCheck=false;
+var localVideo = document.getElementById('#localVideo');
 
 $('#sendMessage').on('click',function (e) {
     var message=document.getElementById('text-message').value;
@@ -284,6 +284,14 @@ $('#sendMessage').on('click',function (e) {
     mymessageCheck=true;
     document.getElementById('text-message').value='';
     closeAttachment();
+
+    // const constraints = {
+    //     video: true
+    //   };
+    // const video = document.querySelector('#localVideo');
+      
+    // navigator.mediaDevices.getUserMedia(constraints).
+    //     then((stream) => {video.srcObject = stream});
 });
 
 function closeAttachment() {
@@ -295,6 +303,9 @@ function closeAttachment() {
     $('#attach').val('');
 }
 
+$("#attach").change(function() {
+    readURL(this);
+});
 
 connection.filesContainer = document.getElementById('div-messenger');
 
@@ -338,7 +349,7 @@ function updateLabel(progress, label) {
 
 
 function appendDIV(event) {
-console.log(event);
+    console.log(event);
 console.log(event.data);
 console.log(event);
  if (event.data) {
@@ -366,7 +377,6 @@ console.log(event);
 
 
 }
-
 connection.onFileProgress = function (chunk, uuid) {
     var helper = progressHelper[chunk.uuid];
     helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
@@ -374,8 +384,6 @@ connection.onFileProgress = function (chunk, uuid) {
 };
 //Progress Bar Code Goes Here
 connection.onFileStart = function (file) {
-    $("#label-attach").prop('disabled', true);
-    $("#attach").prop('disabled', true);
     //progress Bar code here
     var div = document.createElement('div');
     div.title = file.name;
@@ -420,8 +428,6 @@ connection.onFileEnd = function (file) {
     }, 100);
 
     $('.progress-bar').hide(300);
-    $('#label-attach').prop('disabled', false);
-    $('#attach').prop('disabled', false);
 }
 
 function hasExtension(fileName, exts) {
@@ -493,91 +499,4 @@ function call() {
     }, 1000);}
 
 
-
-    // var audioMuteCheck=false;
-    // function muteAudio(){
-    //     console.log(connection.streamEvents);
-    //     if (!audioMuteCheck) {
-    //         connection.attachStreams[0].mute({
-    //             audio: true,
-    //             type: 'local'
-    //         });
-    //         audioMuteCheck=true;
-    //     }else {
-    //         connection.attachStreams[0].unmute({
-    //             audio: true,
-    //             type: 'local'
-    //         });
-    //         audioMuteCheck=false;
-    //     }
-    // }
-    
-    
-    // var videoMuteCheck=false;
-    // function muteVideo(){
-    //     console.log(connection.streamEvents);
-    //     if (!videoMuteCheck) {
-    //         connection.attachStreams[0].mute({
-    //             video: true,
-    //             type: 'local'
-    //         });
-    //         videoMuteCheck=true;
-    //     }else {
-    //         connection.attachStreams[0].unmute({
-    //             video: true,
-    //             type: 'local'
-    //         });
-    //         videoMuteCheck=false;
-    //     }
-    // }
-
-
-
-
-// var videoDevices = document.getElementById('video-devices');
-// connection.DetectRTC.load(function() {
-//     connection.DetectRTC.MediaDevices.forEach(function(device) {
-//         if(document.getElementById(device.id)) {
-//             return;
-//         }
-
-
-//         if(device.kind.indexOf('video') !== -1) {
-//             var option = document.createElement('option');
-//             option.id = device.id;
-//             option.innerHTML = device.label || device.id;
-//             option.value = device.id;
-//             videoDevices.appendChild(option);
-
-//             if(connection.mediaConstraints.video.optional.length && connection.mediaConstraints.video.optional[0].sourceId === device.id) {
-//                 option.selected = true;
-//             }
-//         }
-//     });
-// });
-// videoDevices.onchange=function(e){
-//     var videoSourceId = videoDevices.value;
-//     if(connection.mediaConstraints.video.optional.length && connection.attachStreams.length) {
-//         if(connection.mediaConstraints.video.optional[0].sourceId === videoSourceId) {
-//             alert('Selected video device is already selected.');
-//             return;
-//         }
-//     }
-
-//     connection.attachStreams.forEach(function(stream) {
-//         stream.getVideoTracks().forEach(function(track) {
-//             stream.removeTrack(track);
-
-//             if(track.stop) {
-//                 track.stop();
-//             }
-//         });
-//     });
-
-//     connection.mediaConstraints.video.optional = [{
-//         sourceId: videoSourceId
-//     }];
-
-//     connection.captureUserMedia();
-// };
 
