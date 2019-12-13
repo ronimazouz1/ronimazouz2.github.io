@@ -1362,6 +1362,7 @@ background-color: rgba(0, 0, 0, 0.5);
 }
 
 #div-call-button {
+  text-align: center;
   height: 20vh;
   position: absolute;
   padding-left: 10px;
