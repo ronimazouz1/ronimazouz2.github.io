@@ -51,22 +51,22 @@ connection.onstream = function(event) {
         var video = document.getElementById('localVideo');
     } else {
         var video = document.getElementById('remoteVideo');
-    // }
-    // try {
-    //     video.setAttributeNode(document.createAttribute('autoplay'));
-    //     video.setAttributeNode(document.createAttribute('playsinline'));
-    // } catch (e) {
-    //     video.setAttribute('autoplay', true);
-    //     video.setAttribute('playsinline', true);
-    // }
+    }
+    try {
+        video.setAttributeNode(document.createAttribute('autoplay'));
+        video.setAttributeNode(document.createAttribute('playsinline'));
+    } catch (e) {
+        video.setAttribute('autoplay', true);
+        video.setAttribute('playsinline', true);
+    }
 
-    // if(event.type === 'local') {
-    //     video.volume = 0;
-    //     try {
-    //         video.setAttributeNode(document.createAttribute('muted'));
-    //     } catch (e) {
-    //         video.setAttribute('muted', true);
-    //     }
+    if(event.type === 'local') {
+        video.volume = 0;
+        try {
+            video.setAttributeNode(document.createAttribute('muted'));
+        } catch (e) {
+            video.setAttribute('muted', true);
+        }
     }
     video.srcObject = event.stream;
     $('#pleaseWait').hide();
@@ -78,38 +78,38 @@ connection.onstream = function(event) {
     // to keep room-id in cache
     localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
 
-    // chkRecordConference.parentNode.style.display = 'none';
+    chkRecordConference.parentNode.style.display = 'none';
 
-    // if(chkRecordConference.checked === true) {
-    //     btnStopRecording.style.display = 'inline-block';
-    //     recordingStatus.style.display = 'inline-block';
+    if(chkRecordConference.checked === true) {
+        btnStopRecording.style.display = 'inline-block';
+        recordingStatus.style.display = 'inline-block';
 
-    //     var recorder = connection.recorder;
-    //     if(!recorder) {
-    //         recorder = RecordRTC([event.stream], {
-    //             type: 'video'
-    //         });
-    //         recorder.startRecording();
-    //         connection.recorder = recorder;
-    //     } else {
-    //         recorder.getInternalRecorder().addStreams([event.stream]);
-    //     }
+        var recorder = connection.recorder;
+        if(!recorder) {
+            recorder = RecordRTC([event.stream], {
+                type: 'video'
+            });
+            recorder.startRecording();
+            connection.recorder = recorder;
+        } else {
+            recorder.getInternalRecorder().addStreams([event.stream]);
+        }
 
-    //     if(!connection.recorder.streams) {
-    //         connection.recorder.streams = [];
-    //     }
+        if(!connection.recorder.streams) {
+            connection.recorder.streams = [];
+        }
 
-    //     connection.recorder.streams.push(event.stream);
-    //     recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
-    // }
+        connection.recorder.streams.push(event.stream);
+        recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
+    }
 
-    // if(event.type === 'local') {
-    //     connection.socket.on('disconnect', function() {
-    //         if(!connection.getAllParticipants().length) {
-    //             location.reload();
-    //         }
-    //     });
-    // }
+    if(event.type === 'local') {
+        connection.socket.on('disconnect', function() {
+            if(!connection.getAllParticipants().length) {
+                location.reload();
+            }
+        });
+    }
 };
 
 
